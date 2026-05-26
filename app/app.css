@@ -1,0 +1,739 @@
+/* EventKalender App Styling Custom Sheet */
+
+:root {
+  --event-primary: #378681;
+  --event-primary-dark: #2e6f72;
+  --event-bg: #f8f9fa;
+  --event-card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --event-border-radius: 12px;
+  --event-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --color-politik: #0d6efd;
+  --color-kultur: #198754;
+  --color-sport: #ffc107;
+  --color-bildung: #0dcaf0;
+  --color-soziales: #dc3545;
+  --color-sonstiges: #6c757d;
+}
+
+/* Base structural adjustments */
+.event-app-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #333;
+}
+
+/* KPI Dashboard Cards */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 992px) {
+  .kpi-row {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .kpi-card.kpi-next {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 991px) {
+  .kpi-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .kpi-card.kpi-next {
+    grid-column: span 2;
+  }
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--event-border-radius);
+  padding: 1.25rem;
+  box-shadow: var(--event-card-shadow);
+  transition: var(--event-transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--event-primary);
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.kpi-card.kpi-heute::before { background: var(--color-soziales); }
+.kpi-card.kpi-next::before { background: var(--color-politik); }
+.kpi-card.kpi-woche::before { background: var(--event-primary); }
+.kpi-card.kpi-kat::before { background: var(--color-kultur); }
+.kpi-card.kpi-org::before { background: var(--color-sport); }
+
+.kpi-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #212529;
+  line-height: 1.2;
+  margin-top: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-card.kpi-next .kpi-value {
+  font-size: 1.15rem;
+  font-weight: 600;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+.kpi-sub {
+  font-size: 0.75rem;
+  color: #868e96;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Filter Bar styles */
+.filter-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--event-border-radius);
+  box-shadow: var(--event-card-shadow);
+  padding: 1.25rem;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* App Main Layout Grid (Tabs + Sidepanel) */
+.app-content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .app-content-grid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+  .app-content-grid.wide-detail {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+/* Navigation tabs custom layout */
+.custom-tabs-nav {
+  display: flex;
+  background: #e9ecef;
+  padding: 0.35rem;
+  border-radius: 10px;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  border: none;
+}
+
+.custom-tabs-nav .nav-link {
+  flex: 1;
+  text-align: center;
+  border: none !important;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: transparent;
+  transition: var(--event-transition);
+}
+
+.custom-tabs-nav .nav-link.active {
+  background: #ffffff;
+  color: var(--event-primary) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tab-pane-container {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--event-border-radius);
+  padding: 1.25rem;
+  box-shadow: var(--event-card-shadow);
+  min-height: 480px;
+}
+
+/* Ablaufplan List View */
+.agenda-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+/* Scrollbar customization */
+.agenda-list::-webkit-scrollbar,
+.detail-content::-webkit-scrollbar {
+  width: 6px;
+}
+.agenda-list::-webkit-scrollbar-track,
+.detail-content::-webkit-scrollbar-track {
+  background: #f1f3f5;
+  border-radius: 4px;
+}
+.agenda-list::-webkit-scrollbar-thumb,
+.detail-content::-webkit-scrollbar-thumb {
+  background: #ced4da;
+  border-radius: 4px;
+}
+.agenda-list::-webkit-scrollbar-thumb:hover,
+.detail-content::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
+
+.agenda-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--event-transition);
+  gap: 1rem;
+}
+
+.agenda-item:hover {
+  border-color: var(--event-primary);
+  background: rgba(55, 134, 129, 0.02);
+  transform: translateX(3px);
+}
+
+.agenda-item.active {
+  border-color: var(--event-primary);
+  background: rgba(55, 134, 129, 0.06);
+  box-shadow: inset 3px 0 0 var(--event-primary);
+}
+
+.agenda-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.agenda-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6c757d;
+  flex-wrap: wrap;
+}
+
+.agenda-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.agenda-location {
+  font-size: 0.8rem;
+  color: #495057;
+}
+
+.agenda-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* Today Trennlinie */
+.today-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: #dc3545;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.today-divider::before,
+.today-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: #dc3545;
+}
+
+.today-divider::before { margin-right: 1rem; }
+.today-divider::after { margin-left: 1rem; }
+
+/* Cancelled and Recurring event modifiers */
+.event-cancelled {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.badge-status-cancelled {
+  background-color: #f8d7da !important;
+  color: #842029 !important;
+}
+
+/* Category Badges Styling */
+.badge-kat {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.bg-kat-politik { background-color: var(--color-politik); color: #fff; }
+.bg-kat-kultur { background-color: var(--color-kultur); color: #fff; }
+.bg-kat-sport { background-color: var(--color-sport); color: #212529; }
+.bg-kat-bildung { background-color: var(--color-bildung); color: #212529; }
+.bg-kat-soziales { background-color: var(--color-soziales); color: #fff; }
+.bg-kat-sonstiges { background-color: var(--color-sonstiges); color: #fff; }
+
+/* Leaflet Map Styles */
+.event-map-container {
+  height: 480px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  z-index: 1;
+}
+
+/* Custom Marker Pins styled by Category */
+.custom-div-icon {
+  background: transparent;
+  border: none;
+}
+
+.marker-pin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% 50% 50% 0;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -16px 0 0 -16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.marker-pin::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  position: absolute;
+}
+
+.pin-politik { background-color: var(--color-politik); }
+.pin-kultur { background-color: var(--color-kultur); }
+.pin-sport { background-color: var(--color-sport); }
+.pin-bildung { background-color: var(--color-bildung); }
+.pin-soziales { background-color: var(--color-soziales); }
+.pin-sonstiges { background-color: var(--color-sonstiges); }
+
+/* Detail Side Panel */
+.detail-panel {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--event-border-radius);
+  box-shadow: var(--event-card-shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  max-height: 720px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.detail-content {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 0.25rem;
+}
+
+.detail-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.9rem;
+}
+
+.detail-icon {
+  font-size: 1.1rem;
+  color: var(--event-primary);
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.detail-label {
+  font-weight: 700;
+  color: #495057;
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  color: #212529;
+  flex: 1;
+}
+
+/* Charts Wrapper */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+.chart-wrapper {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Empty placeholder styles */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  color: #6c757d;
+  height: 100%;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Header Buttons styling */
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-event {
+  background-color: var(--event-primary);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: var(--event-transition);
+}
+
+.btn-event:hover {
+  background-color: var(--event-primary-dark);
+  color: #ffffff;
+}
+
+.btn-outline-event {
+  border: 1px solid var(--event-primary);
+  color: var(--event-primary);
+  background: transparent;
+  font-weight: 600;
+  transition: var(--event-transition);
+}
+
+.btn-outline-event:hover {
+  background-color: var(--event-primary);
+  color: #ffffff;
+}
+
+/* List Pagination */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.event-header {
+  gap: 1rem;
+}
+
+.event-header-copy {
+  min-width: 0;
+}
+
+.filter-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.filter-card-subtitle {
+  max-width: 42rem;
+}
+
+.filter-body {
+  display: block;
+}
+
+.filter-toggle-button {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .event-app-container {
+    gap: 1rem;
+  }
+
+  .event-header {
+    align-items: stretch !important;
+    margin-bottom: 0 !important;
+  }
+
+  .event-header-copy,
+  .header-actions,
+  .header-actions .btn {
+    width: 100%;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .header-actions .btn {
+    justify-content: center;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .kpi-card,
+  .kpi-card.kpi-next {
+    grid-column: span 1;
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .kpi-card.kpi-next {
+    grid-column: 1 / -1;
+  }
+
+  .kpi-value {
+    font-size: 1.55rem;
+  }
+
+  .kpi-card.kpi-next .kpi-value {
+    font-size: 1.35rem;
+    line-height: 1.3;
+  }
+
+  .filter-card {
+    padding: 1rem;
+  }
+
+  .filter-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  .filter-toggle-button {
+    display: inline-flex;
+    width: 100%;
+  }
+
+  .filters-collapsed .filter-body {
+    display: none;
+  }
+
+  .filters-collapsed .filter-card {
+    padding-bottom: 1rem;
+  }
+
+  .event-app-container:not(.filters-collapsed) .filter-card-header {
+    margin-bottom: 1rem;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .custom-tabs-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+    padding: 0.4rem;
+    margin-bottom: 0;
+  }
+
+  .custom-tabs-nav .nav-link {
+    min-height: 3rem;
+    padding: 0.65rem 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+
+  .tab-pane-container,
+  .detail-panel {
+    padding: 1rem;
+  }
+
+  .tab-pane-container {
+    min-height: 360px;
+  }
+
+  .detail-panel {
+    max-height: none;
+  }
+
+  .agenda-list {
+    max-height: none;
+    padding-right: 0;
+  }
+
+  .agenda-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .agenda-right {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .agenda-right .text-truncate {
+    max-width: none !important;
+    white-space: normal;
+  }
+
+  .today-divider {
+    margin: 1rem 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .today-divider::before {
+    margin-right: 0.5rem;
+  }
+
+  .today-divider::after {
+    margin-left: 0.5rem;
+  }
+
+  .event-map-container {
+    height: 320px;
+  }
+
+  .detail-header {
+    gap: 0.75rem;
+  }
+
+  .detail-row {
+    flex-wrap: wrap;
+    gap: 0.45rem 0.65rem;
+    margin-bottom: 1rem;
+  }
+
+  .detail-label {
+    width: auto;
+    min-width: 0;
+  }
+
+  .detail-value {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .pagination-controls {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .pagination-controls .btn {
+    flex: 1 1 9rem;
+  }
+
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+}

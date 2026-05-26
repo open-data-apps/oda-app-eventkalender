@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7eb8f7"/>
+      <stop offset="100%" stop-color="#3d3fa5"/>
+    </linearGradient>
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <!-- Background Rect with specified roundings -->
+  <rect width="512" height="512" rx="108" ry="108" fill="url(#bgGrad)"/>
+
+  <!-- Subtle Glare Overlay -->
+  <ellipse cx="160" cy="140" rx="180" ry="160" fill="white" fill-opacity="0.07"/>
+
+  <!-- Centered Motif with Shadow -->
+  <g filter="url(#shadow)" fill="#ffffff">
+    <!-- Calendar Sheet Background (semi-transparent) -->
+    <path d="M138,154 C138,136.3 152.3,122 170,122 L342,122 C359.7,122 374,136.3 374,154 L374,378 C374,395.7 359.7,410 342,410 L170,410 C152.3,410 138,395.7 138,378 Z" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-width="16" stroke-linejoin="round"/>
+    
+    <!-- Calendar Top Header Band (solid white) -->
+    <path d="M146,154 C146,140.3 156.3,130 170,130 L342,130 C355.7,130 366,140.3 366,154 L366,200 L146,200 Z" fill="#ffffff" fill-opacity="0.9"/>
+    
+    <!-- Rings/Hooks -->
+    <rect x="186" y="90" width="20" height="56" rx="10" fill="#ffffff"/>
+    <rect x="306" y="90" width="20" height="56" rx="10" fill="#ffffff"/>
+    
+    <!-- Calendar Grid Dots (represent dates) -->
+    <circle cx="196" cy="250" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    <circle cx="256" cy="250" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    <circle cx="316" cy="250" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    
+    <circle cx="196" cy="305" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    <!-- Event Star Pinpoint in Center Grid -->
+    <path d="M256,289 L260.5,301.5 L273.5,301.5 L263,309 L267.5,321.5 L256,313.5 L244.5,321.5 L249,309 L238.5,301.5 L251.5,301.5 Z" fill="#ffffff" fill-opacity="1"/>
+    <circle cx="316" cy="305" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    
+    <circle cx="196" cy="360" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    <circle cx="256" cy="360" r="13" fill="#ffffff" fill-opacity="0.95"/>
+    <circle cx="316" cy="360" r="13" fill="#ffffff" fill-opacity="0.95"/>
+  </g>
+</svg>

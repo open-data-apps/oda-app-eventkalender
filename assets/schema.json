@@ -1,0 +1,121 @@
+{
+  "profile": "tabular-data-resource",
+  "name": "eventkalender-schema",
+  "title": "Veranstaltungskalender Datenmodell",
+  "description": "Datenmodell zur Strukturierung von Veranstaltungskalender-Einträgen für Kommunen und Institutionen.",
+  "schema": {
+    "fields": [
+      {
+        "name": "event_id",
+        "title": "Event-ID",
+        "type": "integer",
+        "description": "Eindeutige ID der Veranstaltung."
+      },
+      {
+        "name": "titel",
+        "title": "Titel",
+        "type": "string",
+        "description": "Titel bzw. Zusammenfassung der Veranstaltung."
+      },
+      {
+        "name": "beschreibung",
+        "title": "Beschreibung",
+        "type": "string",
+        "description": "Ausführlichere Beschreibung des Termins."
+      },
+      {
+        "name": "datum_start",
+        "title": "Startzeitpunkt",
+        "type": "string",
+        "format": "date-time",
+        "description": "Startdatum und -zeit nach ISO 8601."
+      },
+      {
+        "name": "datum_ende",
+        "title": "Endzeitpunkt",
+        "type": "string",
+        "format": "date-time",
+        "description": "Enddatum und -zeit nach ISO 8601."
+      },
+      {
+        "name": "zeitzone",
+        "title": "Zeitzone",
+        "type": "string",
+        "description": "IANA Zeitzone, z.B. Europe/Berlin."
+      },
+      {
+        "name": "ort_name",
+        "title": "Ort (Bezeichnung)",
+        "type": "string",
+        "description": "Bezeichnung des Veranstaltungsortes (z. B. Rathaus Zimmer 1)."
+      },
+      {
+        "name": "ort_adresse",
+        "title": "Ort (Adresse)",
+        "type": "string",
+        "description": "Straße, Postleitzahl und Stadt des Veranstaltungsortes."
+      },
+      {
+        "name": "ort_lat",
+        "title": "Breitengrad (WGS84)",
+        "type": "number",
+        "description": "Geografischer Breitengrad für Karten-Pins."
+      },
+      {
+        "name": "ort_lon",
+        "title": "Längengrad (WGS84)",
+        "type": "number",
+        "description": "Geografischer Längengrad für Karten-Pins."
+      },
+      {
+        "name": "kategorie",
+        "title": "Kategorie",
+        "type": "string",
+        "description": "Kategorie-Zuordnung der Veranstaltung.",
+        "constraints": {
+          "enum": ["Politik", "Kultur", "Sport", "Bildung", "Soziales", "Sonstiges"]
+        }
+      },
+      {
+        "name": "teilnehmer",
+        "title": "Teilnehmerliste",
+        "type": "string",
+        "description": "Teilnehmer der Veranstaltung, durch Semikolon getrennt."
+      },
+      {
+        "name": "veranstalter",
+        "title": "Veranstalter",
+        "type": "string",
+        "description": "Name der veranstaltenden Organisation."
+      },
+      {
+        "name": "kontakt_email",
+        "title": "Kontakt-E-Mail",
+        "type": "string",
+        "description": "E-Mail-Adresse des Veranstalters für Rückfragen."
+      },
+      {
+        "name": "url",
+        "title": "Informations-URL",
+        "type": "string",
+        "description": "Weiterführende Webseite mit Informationen zum Termin."
+      },
+      {
+        "name": "status",
+        "title": "Status",
+        "type": "string",
+        "description": "Planungsstatus der Veranstaltung.",
+        "constraints": {
+          "enum": ["geplant", "abgesagt", "abgeschlossen"]
+        }
+      },
+      {
+        "name": "wiederholung",
+        "title": "Wiederholungsregel (RRULE)",
+        "type": "string",
+        "description": "iCalendar RRULE-Ausdruck zur Definition von Wiederholungsterminen."
+      }
+    ],
+    "primaryKey": "event_id"
+  }
+}

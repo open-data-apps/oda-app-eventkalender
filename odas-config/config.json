@@ -1,0 +1,46 @@
+{
+  "apiVersion": "1",
+  "titel": "Veranstaltungskalender Esslingen",
+  "seitentitel": "EventKalender Esslingen",
+  "icon": "logo_ondics.png",
+  "brandingCSS": ".title {color: #ffffff} body { background-color: #f8f8f8; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; margin: 0; padding: 0; } header, .header, .navbar, footer, .footer { background-color: #378681; color: #ffffff; padding: 1rem; } a { color: #378681; text-decoration: none; } a:hover, a:focus { color: #2e6f72; text-decoration: underline; } button, .btn { background-color: #378681; border: none; color: #fff; padding: 0.5rem 1rem; cursor: pointer; font-size: 1rem; border-radius: 4px; } button:hover, .btn:hover { background-color: #2e6f72; } h1, h2, h3, h4, h5, h6 { color: #378681; margin-top: 0; } .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }",
+  "brandingCSSFile": "./assets/branding.css",
+  "beschreibung": [
+    "Die App visualisiert städtische Termine und öffentliche Veranstaltungen.",
+    "## Datenquelle",
+    "Die Daten kommen aus dem Open Data Portal der Stadt und werden regelmäßig aktualisiert.",
+    "## Über diese App",
+    "Entwickelt von der Ondics GmbH für den Open Data App Store."
+  ],
+  "kontakt": [
+    "Sie haben Fragen oder Anregungen zu den angebotenen Veranstaltungen?",
+    "Richten Sie Ihre Nachricht gerne an:",
+    "Tel.: <a href='tel:+49711310093100'>0711-31009-3100</a>",
+    "E-Mail: <a href='mailto:kultur@esslingen.de'>kultur@esslingen.de</a>"
+  ],
+  "impressum": [
+    "### Herausgeber",
+    "Stadt Esslingen am Neckar",
+    "Rathausplatz 1",
+    "73728 Esslingen",
+    "### App-Entwicklung",
+    "Ondics GmbH<br>Blumenstraße 19<br>73728 Esslingen"
+  ],
+  "datenschutz": [
+    "Diese Anwendung speichert keine personenbezogenen Daten.",
+    "Alle Abfragen erfolgen anonym über den Server."
+  ],
+  "urlODP": "https://open-data-musterstadt.ckan.de",
+  "urlDaten": "https://open-data-musterstadt.ckan.de/testdaten",
+  "fusszeile": [
+    "(C) Copyright 2026 | Stadt Esslingen | App-Entwickler: Ondics GmbH"
+  ],
+  "apiurl": "../assets/events-mock.json",
+  "resourceId": "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3",
+  "maxRecords": "1000",
+  "standardKategorie": "alle",
+  "karteZentrum": "48.7396, 9.3097",
+  "karteZoom": "12",
+  "proxyAktiv": "nein",
+  "sprache": "de"
+}

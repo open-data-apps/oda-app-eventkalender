@@ -1,0 +1,220 @@
+{
+  "app-entwickler-id": "12343",
+  "app-entwickler-name": "ondics-gmbh",
+  "name-in-url": "eventkalender",
+  "name": "EventKalender",
+  "version": "1.0.0",
+  "odas-app-icon": "assets/odas-app-icon.svg",
+  "app-icon": "assets/odas-app-icon.svg",
+  "kurzbeschreibung": "Interaktiver Veranstaltungskalender mit Listen- und Kartenansicht, Teilnehmer-Gruppierung, Auswertungen und iCal-Export.",
+  "beschreibung": [
+    "_multiline_",
+    "Die EventKalender-App zeigt öffentliche Veranstaltungen aus einem CKAN-Portal oder einer Datenquelle an.",
+    "Bürgerinnen und Bürger können Termine filtern, Details einsehen und einzelne oder alle Termine direkt für Outlook, Google Calendar oder Apple Calendar im iCal-Format (.ics) herunterladen.",
+    "Die App bietet verschiedene Ansichten: ein chronologischer Ablaufplan mit Heute-Trennlinie, eine interaktive Karte mit farbkodierten Kategorie-Pins, eine Teilnehmer-Übersicht und grafische Auswertungen."
+  ],
+  "tags-funktion": ["Kalender", "Veranstaltungen", "Karte", "Statistik"],
+  "tags-dateityp": ["CSV", "JSON", "ICS"],
+  "tags-datenart": ["Events", "Stadtleben", "Kommunales"],
+  "screenshots": ["assets/Desktop_Screenshot.png"],
+  "daten": {
+    "beschreibung": "Die App verarbeitet Veranstaltungskalender-Daten. Jedes Event muss mindestens ein Startdatum, einen Titel und eine ID besitzen. Optionale Felder umfassen Ortsangaben mit Geokoordinaten, Teilnehmer, Kategorien und Wiederholungsregeln.",
+    "schema": "assets/schema.json",
+    "beispiel": "assets/events-mock.json",
+    "beispiel-url": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search"
+  },
+  "branding-css": "",
+  "api-version": "1",
+  "instanz-config": {
+    "seitentitel": {
+      "label": "Seitentitel",
+      "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
+      "default": "EventKalender Esslingen",
+      "format": {
+        "typ": "string",
+        "laenge": 50
+      },
+      "erforderlich": "ja"
+    },
+    "lizenz": {
+      "label": "Lizenz",
+      "hilfe": "Angabe der Lizenz, die für die Nutzung der App gilt.",
+      "default": "Open Software License (OSL)",
+      "format": {
+        "typ": "string",
+        "laenge": 50
+      },
+      "erforderlich": "ja"
+    },
+    "titel": {
+      "label": "Titel",
+      "hilfe": "Der Titel wird in der Titelzeile der App angezeigt",
+      "default": "Veranstaltungskalender Esslingen",
+      "format": {
+        "typ": "string",
+        "laenge": 50
+      },
+      "erforderlich": "ja"
+    },
+    "icon": {
+      "label": "App-Icon",
+      "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt",
+      "default": "logo_ondics.png",
+      "format": {
+        "typ": "image",
+        "hoehe": 100,
+        "breite": 300
+      },
+      "erforderlich": "ja"
+    },
+    "kontakt": {
+      "label": "Kontakt",
+      "hilfe": "Der Text wird im Menüpunkt 'Kontakt' anzeigt",
+      "format": {
+        "typ": "markdown"
+      },
+      "default": [
+        "_multiline_",
+        "Sie haben Fragen oder Anregungen zu den angebotenen Veranstaltungen?",
+        "Richten Sie Ihre Nachricht gerne an:",
+        "Tel.: <a href='tel:+49711310093100'>0711-31009-3100</a>",
+        "E-Mail: <a href='mailto:kultur@esslingen.de'>kultur@esslingen.de</a>"
+      ],
+      "erforderlich": "ja"
+    },
+    "beschreibung": {
+      "label": "Beschreibung",
+      "hilfe": "Der Text wird im Menüpunkt 'Über diese App' angezeigt",
+      "format": {
+        "typ": "markdown"
+      },
+      "default": [
+        "_multiline_",
+        "Die App visualisiert städtische Termine und öffentliche Veranstaltungen.",
+        "## Datenquelle",
+        "Die Daten kommen aus dem Open Data Portal der Stadt und werden regelmäßig aktualisiert.",
+        "## Über diese App",
+        "Entwickelt von der Ondics GmbH für den Open Data App Store."
+      ],
+      "erforderlich": "ja"
+    },
+    "impressum": {
+      "label": "Impressum",
+      "hilfe": "Der Text wird im Menüpunkt 'Impressum' anzeigt",
+      "format": {
+        "typ": "markdown"
+      },
+      "default": [
+        "_multiline_",
+        "### Herausgeber",
+        "Stadt Esslingen am Neckar",
+        "Rathausplatz 1",
+        "73728 Esslingen",
+        "### App-Entwicklung",
+        "Ondics GmbH<br>Blumenstraße 19<br>73728 Esslingen"
+      ],
+      "erforderlich": "ja"
+    },
+    "datenschutz": {
+      "label": "Datenschutz",
+      "hilfe": "Der Text wird im Menüpunkt 'Datenschutz' anzeigt",
+      "format": {
+        "typ": "markdown"
+      },
+      "default": [
+        "_multiline_",
+        "Diese Anwendung speichert keine personenbezogenen Daten.",
+        "Alle Abfragen erfolgen anonym über den Server."
+      ],
+      "erforderlich": "ja"
+    },
+    "fusszeile": {
+      "label": "Fußzeile",
+      "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
+      "format": {
+        "typ": "string",
+        "laenge": 100
+      },
+      "default": "(C) Copyright 2026 | Stadt Esslingen | App-Entwickler: Ondics GmbH",
+      "erforderlich": "ja"
+    },
+    "apiurl": {
+      "label": "URL zu den Daten",
+      "hilfe": "Basis-URL des CKAN-Endpunkts (z. B. datastore_search)",
+      "format": {
+        "typ": "url",
+        "laenge": 255
+      },
+      "default": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search",
+      "beispiel": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search",
+      "erforderlich": "ja"
+    },
+    "resourceId": {
+      "label": "Ressourcen-ID",
+      "hilfe": "CKAN Ressourcen-ID des Datensatzes",
+      "format": {
+        "typ": "string",
+        "laenge": 100
+      },
+      "default": "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3",
+      "beispiel": "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3",
+      "erforderlich": "ja"
+    },
+    "maxRecords": {
+      "label": "Maximaler Datensätze",
+      "hilfe": "Maximale Anzahl an Einträgen, die geladen werden (z.B. 1000)",
+      "format": {
+        "typ": "string"
+      },
+      "default": "1000",
+      "erforderlich": "nein"
+    },
+    "standardKategorie": {
+      "label": "Standard-Kategorie",
+      "hilfe": "Standardmäßig ausgewählte Kategorie beim Start",
+      "format": {
+        "typ": "string"
+      },
+      "default": "alle",
+      "erforderlich": "nein"
+    },
+    "karteZentrum": {
+      "label": "Karten-Zentrum",
+      "hilfe": "Initiale Geokoordinaten der Karte (Latitude, Longitude)",
+      "format": {
+        "typ": "string"
+      },
+      "default": "48.7396, 9.3097",
+      "erforderlich": "nein"
+    },
+    "karteZoom": {
+      "label": "Karten-Zoom",
+      "hilfe": "Initiales Zoom-Level der Karte (z.B. 12)",
+      "format": {
+        "typ": "string"
+      },
+      "default": "12",
+      "erforderlich": "nein"
+    },
+    "proxyAktiv": {
+      "label": "ODAS Proxy aktivieren",
+      "hilfe": "Soll die Datenabfrage über den integrierten ODAS CORS-Proxy laufen?",
+      "format": {
+        "typ": "dropdown",
+        "optionen": ["nein", "ja"],
+        "default": "nein"
+      },
+      "erforderlich": "ja"
+    },
+    "sprache": {
+      "label": "Sprache der App",
+      "hilfe": "Angabe der App-Sprache",
+      "format": {
+        "typ": "dropdown",
+        "optionen": ["de"],
+        "default": "de"
+      },
+      "erforderlich": "ja"
+    }
+  }
+}
