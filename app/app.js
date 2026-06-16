@@ -56,6 +56,43 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       .replace(/'/g, "&#039;");
   }
 
+  // Helper: optionaler Abschnitt mit weiterführenden Links (HTML-Passthrough)
+  function renderWeitereInfos(cfg = {}) {
+    const links = String(cfg.weiterfuehrendeLinks || "").trim();
+    if (!links) return "";
+    return (
+      '<section class="event-weitere-infos">' +
+      '<h2 class="event-weitere-infos-title">Weitere Informationen</h2>' +
+      '<div class="event-weitere-infos-body">' +
+      links +
+      "</div>" +
+      "</section>"
+    );
+  }
+
+  // Helper: ausklappbare Methodikbox (HTML-Passthrough)
+  function renderMethodikbox(cfg = {}) {
+    const hinweis = String(cfg.datenquelleHinweis || "").trim();
+    const stand = String(cfg.datenStand || "").trim();
+    if (!hinweis && !stand) return "";
+    const standHtml = stand
+      ? `<p class="text-muted small mb-2">${escapeHtml(stand)}</p>`
+      : "";
+    return (
+      '<section class="event-methodik">' +
+      '<button class="event-methodik-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event-methodik-body" aria-expanded="false" aria-controls="event-methodik-body">' +
+      '<h2 class="event-methodik-title">Methodik &amp; Datenquelle</h2>' +
+      '<span class="event-methodik-chevron" aria-hidden="true">&#9662;</span>' +
+      "</button>" +
+      '<div id="event-methodik-body" class="collapse">' +
+      '<div class="event-methodik-body-inner">' +
+      standHtml +
+      hinweis +
+      "</div></div>" +
+      "</section>"
+    );
+  }
+
   // 3. RENDER SKELETON
   renderSkeleton();
   initEvents();
@@ -178,6 +215,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
           </div>
 
         </div>
+
+        ${renderMethodikbox(configdata)}
+        ${renderWeitereInfos(configdata)}
 
       </div>
     `;
@@ -731,31 +771,51 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     const uniqueOrgs = [...new Set(allEvents.map(e => e.veranstalter))].filter(Boolean).length;
 
     // Render into DOM
+    const kk = (n) => {
+      const t = String(configdata["kpiKontext" + n] || "").trim();
+      if (!t) return "";
+      return (
+        '<button class="kpi-info-toggle collapsed" type="button" ' +
+        'data-bs-toggle="collapse" data-bs-target="#kpi-kontext-' + n + '" ' +
+        'aria-expanded="false" aria-controls="kpi-kontext-' + n + '" ' +
+        'aria-label="Erklärung zu diesem Wert">' +
+        '<span class="kpi-info-icon" aria-hidden="true">ⓘ</span>' +
+        '</button>' +
+        '<div id="kpi-kontext-' + n + '" class="collapse">' +
+        '<div class="kpi-kontext">' + escapeHtml(t) + '</div>' +
+        '</div>'
+      );
+    };
     root.querySelector(`#${rootId}-kpis`).innerHTML = `
       <div class="kpi-card kpi-heute">
         <div class="kpi-label">Heute</div>
         <div class="kpi-value" title="${eventsToday.length}">${eventsToday.length}</div>
         <div class="kpi-sub">Veranstaltungen</div>
+        ${kk(1)}
       </div>
       <div class="kpi-card kpi-next">
         <div class="kpi-label">Nächstes Event</div>
         <div class="kpi-value" title="${escapeHtml(nextEventTitle)}">${escapeHtml(nextEventTitle)}</div>
         <div class="kpi-sub">${escapeHtml(countdownStr)}</div>
+        ${kk(2)}
       </div>
       <div class="kpi-card kpi-woche">
         <div class="kpi-label">Diese Woche</div>
         <div class="kpi-value" title="${eventsThisWeek.length}">${eventsThisWeek.length}</div>
         <div class="kpi-sub">In den nächsten 7 Tagen</div>
+        ${kk(3)}
       </div>
       <div class="kpi-card kpi-kat">
         <div class="kpi-label">Kategorien</div>
         <div class="kpi-value" title="${uniqueKats}">${uniqueKats}</div>
         <div class="kpi-sub">Sparten im Programm</div>
+        ${kk(4)}
       </div>
       <div class="kpi-card kpi-org">
         <div class="kpi-label">Veranstalter</div>
         <div class="kpi-value" title="${uniqueOrgs}">${uniqueOrgs}</div>
         <div class="kpi-sub">Aktive Organisationen</div>
+        ${kk(5)}
       </div>
     `;
   }

@@ -737,3 +737,101 @@
     padding: 2rem 1rem;
   }
 }
+
+/* ==============================================
+   Schale 4: KPI-Erklärtexte, Methodikbox, Weitere Infos
+   ============================================== */
+
+/* --- KPI Info-Toggle (Icon statt Dauertext) --- */
+
+.kpi-info-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 0.4rem;
+  cursor: pointer;
+  color: #adb5bd;
+  font: inherit;
+  font-size: 0.72rem;
+  transition: color 0.2s ease;
+}
+.kpi-info-toggle:hover,
+.kpi-info-toggle:focus-visible {
+  color: var(--event-primary);
+}
+.kpi-info-toggle:not(.collapsed) {
+  color: var(--event-primary);
+}
+.kpi-info-icon {
+  font-size: 0.85rem;
+  font-style: normal;
+  line-height: 1;
+}
+
+/* KPI-Kontext (in collapse, nur sichtbar nach Toggle) */
+.kpi-kontext {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  color: #6c757d;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+}
+
+/* --- Methodikbox (Card-Design passend zur App) --- */
+
+.event-methodik {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--event-border-radius);
+  box-shadow: var(--event-card-shadow);
+}
+.event-methodik-toggle {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.event-methodik-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #212529;
+  margin: 0;
+}
+.event-methodik-body-inner {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+}
+.event-methodik-chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  font-size: 1.25rem;
+  color: var(--event-primary);
+}
+.event-methodik-toggle:not(.collapsed) .event-methodik-chevron {
+  transform: rotate(180deg);
+}
+
+/* --- Weitere Infos (Card-Design passend zur App) --- */
+
+.event-weitere-infos {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--event-border-radius);
+  box-shadow: var(--event-card-shadow);
+  padding: 1.25rem;
+}
+.event-weitere-infos-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #212529;
+  margin: 0 0 0.75rem 0;
+}

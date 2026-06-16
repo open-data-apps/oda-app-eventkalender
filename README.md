@@ -46,6 +46,12 @@ Die App lädt Konfigurationsdaten dynamisch und bietet folgende Kernfunktionen:
 
 ---
 
+## Für wen ist diese App?
+
+Diese App richtet sich an Bürgerinnen und Bürger in Esslingen sowie an die Stadtverwaltung. Voraussetzung ist kein spezielles Datenwissen – wer wissen möchte, welche Veranstaltungen anstehen, kann die App direkt nutzen.
+
+---
+
 ## Datenformat
 Die App unterstützt sowohl **JSON** als auch **CSV** als Datenquelle:
 
