@@ -9,13 +9,40 @@
   "kurzbeschreibung": "Interaktiver Veranstaltungskalender mit Listen- und Kartenansicht, Teilnehmer-Gruppierung, Auswertungen und iCal-Export.",
   "beschreibung": [
     "_multiline_",
-    "Die EventKalender-App zeigt öffentliche Veranstaltungen und städtische Termine aus dem Open Data Portal an. Bürgerinnen und Bürger können das Veranstaltungsangebot durchsuchen, nach Kategorien filtern und sich einen Überblick über das lokale Kultur- und Veranstaltungsprogramm verschaffen.",
-    "Die App bietet: chronologischen Ablaufplan mit Heute-Markierung, interaktive Karte mit farbkodierten Kategorie-Pins, Teilnehmer-Übersicht, grafische Auswertungen und iCal-Export für Outlook, Google und Apple Kalender."
+    "<p>Die EventKalender-App zeigt öffentliche Veranstaltungen und Termine in einer übersichtlichen Listen-, Karten- und Detailansicht.</p>",
+    "<p>Sie unterstützt Planung und Orientierung durch Filter, Auswertungen und iCal-Export.</p>",
+    "<h3>Inhalte</h3>",
+    "<p>Die App verarbeitet Veranstaltungstitel, Zeiträume, Orte, Kategorien, Veranstalter, Teilnehmende und optionale Wiederholungsinformationen.</p>",
+    "<p>Karte, Terminliste, Auswertungen und Detailansichten greifen auf denselben konfigurierten Datensatz zu.</p>",
+    "<h3>Nutzung</h3>",
+    "<p>Filtern Sie nach Zeitraum, Kategorie, Veranstalter oder Stichwort und öffnen Sie Details zu einzelnen Terminen. Einzelne oder mehrere Events können als iCal-Datei in Kalenderprogramme übernommen werden.</p>",
+    "<h3>Für wen ist diese App?</h3>",
+    "<p>Die App richtet sich an Bürger:innen, Veranstalter, Öffentlichkeitsarbeit und Kommunen, die Termine verständlich veröffentlichen möchten. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
+    "<h3>Datenquelle</h3>",
+    "<p>Die Veranstaltungsdaten werden aus einer konfigurierten CKAN-Quelle oder aus einer lokalen Beispielressource geladen.</p>",
+    "<ul><li><strong>Open Data Portal:</strong> <a href=\"https://open-data-musterstadt.ckan.de\" target=\"_blank\" rel=\"noopener\">Open Data Musterstadt</a></li><li><strong>Ressource/API-Endpunkt:</strong> <a href=\"https://open-data-musterstadt.ckan.de/api/3/action/datastore_search\" target=\"_blank\" rel=\"noopener\">CKAN datastore_search API</a></li></ul>",
+    "<h3>Open Data App Store</h3>",
+    "<p>Diese App ist für den Open Data App Store vorbereitet und kann mit kommunalen Veranstaltungs- oder Termindaten betrieben werden.</p>"
   ],
-  "tags-funktion": ["Kalender", "Veranstaltungen", "Karte", "Statistik"],
-  "tags-dateityp": ["CSV", "JSON", "ICS"],
-  "tags-datenart": ["Events", "Stadtleben", "Kommunales"],
-  "screenshots": ["assets/Desktop_Screenshot.png"],
+  "tags-funktion": [
+    "Kalender",
+    "Veranstaltungen",
+    "Karte",
+    "Statistik"
+  ],
+  "tags-dateityp": [
+    "CSV",
+    "JSON",
+    "ICS"
+  ],
+  "tags-datenart": [
+    "Events",
+    "Stadtleben",
+    "Kommunales"
+  ],
+  "screenshots": [
+    "assets/Desktop_Screenshot.png"
+  ],
   "daten": {
     "beschreibung": "Die App verarbeitet Veranstaltungskalender-Daten. Jedes Event muss mindestens ein Startdatum, einen Titel und eine ID besitzen. Optionale Felder umfassen Ortsangaben mit Geokoordinaten, Teilnehmer, Kategorien und Wiederholungsregeln.",
     "schema": "assets/schema.json",
@@ -89,15 +116,20 @@
       },
       "default": [
         "_multiline_",
-        "Die EventKalender-App zeigt öffentliche Veranstaltungen und städtische Termine aus dem Open Data Portal an. Bürgerinnen und Bürger können das Veranstaltungsangebot durchsuchen, nach Kategorien filtern und sich einen Überblick über das lokale Kultur- und Veranstaltungsprogramm verschaffen.",
-        "## Für wen ist diese App?",
-        "Diese App richtet sich an Bürgerinnen und Bürger, die sich über das lokale Veranstaltungsangebot informieren möchten, sowie an die Stadtverwaltung, das Kulturamt und Tourist-Informationen. Voraussetzung ist kein spezielles Datenwissen – wer wissen möchte, welche Termine und Events anstehen, kann die App direkt nutzen.",
-        "## Inhalte und Funktionen",
-        "Die Startseite zeigt die wichtigsten Kennzahlen auf einen Blick: Veranstaltungen heute, das nächste Event, Termine dieser Woche sowie die Anzahl aktiver Kategorien und Veranstalter. Ein chronologischer Ablaufplan listet alle Termine mit Heute-Markierung. Eine interaktive Karte zeigt die Veranstaltungsorte mit farbkodierten Kategorie-Pins. Die Teilnehmer-Übersicht gruppiert Events nach Veranstalter. Grafische Auswertungen zeigen die monatliche und kategoriebezogene Verteilung. Einzelne oder alle Termine können als iCal-Datei (.ics) für Outlook, Google oder Apple Kalender heruntergeladen werden.",
-        "## Datenquelle",
-        "Die Veranstaltungsdaten stammen aus dem <a href='https://open-data-musterstadt.ckan.de' target='_blank' rel='noopener'>Open Data Portal der Stadt</a> (CKAN-Schnittstelle). Die Daten werden im iCal-Format bereitgestellt und regelmäßig aktualisiert. Der Datensatz ist im Open Data Portal unter <a href='https://open-data-musterstadt.ckan.de/testdaten' target='_blank' rel='noopener'>open-data-musterstadt.ckan.de</a> abrufbar. Die Kartenansicht verwendet <a href='https://www.openstreetmap.org/copyright' target='_blank' rel='noopener'>OpenStreetMap</a> als Kartengrundlage.",
-        "## Über diese App",
-        "Die App wurde von der <a href='https://www.ondics.de' target='_blank' rel='noopener'>Ondics GmbH</a> für den <a href='https://open-data-app-store.de' target='_blank' rel='noopener'>Open Data App Store</a> entwickelt."
+        "<p>Die EventKalender-App zeigt öffentliche Veranstaltungen und Termine in einer übersichtlichen Listen-, Karten- und Detailansicht.</p>",
+        "<p>Sie unterstützt Planung und Orientierung durch Filter, Auswertungen und iCal-Export.</p>",
+        "<h3>Inhalte</h3>",
+        "<p>Die App verarbeitet Veranstaltungstitel, Zeiträume, Orte, Kategorien, Veranstalter, Teilnehmende und optionale Wiederholungsinformationen.</p>",
+        "<p>Karte, Terminliste, Auswertungen und Detailansichten greifen auf denselben konfigurierten Datensatz zu.</p>",
+        "<h3>Nutzung</h3>",
+        "<p>Filtern Sie nach Zeitraum, Kategorie, Veranstalter oder Stichwort und öffnen Sie Details zu einzelnen Terminen. Einzelne oder mehrere Events können als iCal-Datei in Kalenderprogramme übernommen werden.</p>",
+        "<h3>Für wen ist diese App?</h3>",
+        "<p>Die App richtet sich an Bürger:innen, Veranstalter, Öffentlichkeitsarbeit und Kommunen, die Termine verständlich veröffentlichen möchten. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
+        "<h3>Datenquelle</h3>",
+        "<p>Die Veranstaltungsdaten werden aus einer konfigurierten CKAN-Quelle oder aus einer lokalen Beispielressource geladen.</p>",
+        "<ul><li><strong>Open Data Portal:</strong> <a href=\"https://open-data-musterstadt.ckan.de\" target=\"_blank\" rel=\"noopener\">Open Data Musterstadt</a></li><li><strong>Ressource/API-Endpunkt:</strong> <a href=\"https://open-data-musterstadt.ckan.de/api/3/action/datastore_search\" target=\"_blank\" rel=\"noopener\">CKAN datastore_search API</a></li></ul>",
+        "<h3>Open Data App Store</h3>",
+        "<p>Diese App ist für den Open Data App Store vorbereitet und kann mit kommunalen Veranstaltungs- oder Termindaten betrieben werden.</p>"
       ],
       "erforderlich": "ja"
     },
@@ -204,7 +236,10 @@
       "hilfe": "Soll die Datenabfrage über den integrierten ODAS CORS-Proxy laufen?",
       "format": {
         "typ": "dropdown",
-        "optionen": ["nein", "ja"],
+        "optionen": [
+          "nein",
+          "ja"
+        ],
         "default": "nein"
       },
       "erforderlich": "ja"
@@ -240,35 +275,45 @@
       "label": "KPI-Erklärung: Heute",
       "hilfe": "Erklärtext unter dem KPI 'Heute'. Leer = ausgeblendet.",
       "default": "Termine, die heute stattfinden oder andauern.",
-      "format": { "typ": "string" },
+      "format": {
+        "typ": "string"
+      },
       "erforderlich": "nein"
     },
     "kpiKontext2": {
       "label": "KPI-Erklärung: Nächstes Event",
       "hilfe": "Erklärtext unter dem KPI 'Nächstes Event'. Leer = ausgeblendet.",
       "default": "Der zeitlich nächste anstehende Termin.",
-      "format": { "typ": "string" },
+      "format": {
+        "typ": "string"
+      },
       "erforderlich": "nein"
     },
     "kpiKontext3": {
       "label": "KPI-Erklärung: Diese Woche",
       "hilfe": "Erklärtext unter dem KPI 'Diese Woche'. Leer = ausgeblendet.",
       "default": "Termine in den nächsten sieben Tagen.",
-      "format": { "typ": "string" },
+      "format": {
+        "typ": "string"
+      },
       "erforderlich": "nein"
     },
     "kpiKontext4": {
       "label": "KPI-Erklärung: Kategorien",
       "hilfe": "Erklärtext unter dem KPI 'Kategorien'. Leer = ausgeblendet.",
       "default": "Anzahl unterschiedlicher Veranstaltungssparten.",
-      "format": { "typ": "string" },
+      "format": {
+        "typ": "string"
+      },
       "erforderlich": "nein"
     },
     "kpiKontext5": {
       "label": "KPI-Erklärung: Veranstalter",
       "hilfe": "Erklärtext unter dem KPI 'Veranstalter'. Leer = ausgeblendet.",
       "default": "Anzahl aktiver Organisationen im Datenbestand.",
-      "format": { "typ": "string" },
+      "format": {
+        "typ": "string"
+      },
       "erforderlich": "nein"
     },
     "sprache": {
@@ -276,7 +321,9 @@
       "hilfe": "Angabe der App-Sprache",
       "format": {
         "typ": "dropdown",
-        "optionen": ["de"],
+        "optionen": [
+          "de"
+        ],
         "default": "de"
       },
       "erforderlich": "ja"
