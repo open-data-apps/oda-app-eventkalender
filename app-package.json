@@ -24,25 +24,10 @@
     "<h3>Open Data App Store</h3>",
     "<p>Diese App ist für den Open Data App Store vorbereitet und kann mit kommunalen Veranstaltungs- oder Termindaten betrieben werden.</p>"
   ],
-  "tags-funktion": [
-    "Kalender",
-    "Veranstaltungen",
-    "Karte",
-    "Statistik"
-  ],
-  "tags-dateityp": [
-    "CSV",
-    "JSON",
-    "ICS"
-  ],
-  "tags-datenart": [
-    "Events",
-    "Stadtleben",
-    "Kommunales"
-  ],
-  "screenshots": [
-    "assets/Desktop_Screenshot.png"
-  ],
+  "tags-funktion": ["Kalender", "Veranstaltungen", "Karte", "Statistik"],
+  "tags-dateityp": ["CSV", "JSON", "ICS"],
+  "tags-datenart": ["Events", "Stadtleben", "Kommunales"],
+  "screenshots": ["assets/Desktop_Screenshot.png"],
   "daten": {
     "beschreibung": "Die App verarbeitet Veranstaltungskalender-Daten. Jedes Event muss mindestens ein Startdatum, einen Titel und eine ID besitzen. Optionale Felder umfassen Ortsangaben mit Geokoordinaten, Teilnehmer, Kategorien und Wiederholungsregeln.",
     "schema": "assets/schema.json",
@@ -141,12 +126,10 @@
       },
       "default": [
         "_multiline_",
-        "### Herausgeber",
-        "Stadt Esslingen am Neckar",
-        "Rathausplatz 1",
-        "73728 Esslingen",
-        "### App-Entwicklung",
-        "Ondics GmbH<br>Blumenstraße 19<br>73728 Esslingen"
+        "<h4>Herausgeber</h4>",
+        "<p>Stadt Esslingen am Neckar<br>Rathausplatz 1<br>73728 Esslingen</p>",
+        "<h4>App-Entwicklung</h4>",
+        "<p>Ondics GmbH<br>Blumenstraße 19<br>73728 Esslingen</p>"
       ],
       "erforderlich": "ja"
     },
@@ -236,10 +219,7 @@
       "hilfe": "Soll die Datenabfrage über den integrierten ODAS CORS-Proxy laufen?",
       "format": {
         "typ": "dropdown",
-        "optionen": [
-          "nein",
-          "ja"
-        ],
+        "optionen": ["nein", "ja"],
         "default": "nein"
       },
       "erforderlich": "ja"
@@ -321,9 +301,7 @@
       "hilfe": "Angabe der App-Sprache",
       "format": {
         "typ": "dropdown",
-        "optionen": [
-          "de"
-        ],
+        "optionen": ["de"],
         "default": "de"
       },
       "erforderlich": "ja"

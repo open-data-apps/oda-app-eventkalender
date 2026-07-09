@@ -28,12 +28,10 @@
     "E-Mail: <a href='mailto:kultur@esslingen.de'>kultur@esslingen.de</a>"
   ],
   "impressum": [
-    "### Herausgeber",
-    "Stadt Esslingen am Neckar",
-    "Rathausplatz 1",
-    "73728 Esslingen",
-    "### App-Entwicklung",
-    "Ondics GmbH<br>Blumenstraße 19<br>73728 Esslingen"
+    "<h3>Herausgeber</h3>",
+    "<p>Stadt Esslingen am Neckar<br>Rathausplatz 1<br>73728 Esslingen</p>",
+    "<h3>App-Entwicklung</h3>",
+    "<p>Ondics GmbH<br>Blumenstraße 19<br>73728 Esslingen</p>"
   ],
   "datenschutz": [
     "Diese Anwendung speichert keine personenbezogenen Daten.",
