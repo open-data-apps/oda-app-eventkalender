@@ -3,13 +3,90 @@
  * (C) Ondics GmbH, 2026
  */
 
+function isOdasProxyEnabled(configdata = {}) {
+  return String(configdata.proxyAktiv || "").trim().toLowerCase() === "ja";
+}
+
+function extractPathFromUrl(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.pathname + parsedUrl.search;
+  } catch (_error) {
+    return String(url || "");
+  }
+}
+
+function getOdasAppBasePath(pathname) {
+  let appPath =
+    pathname === undefined
+      ? typeof window !== "undefined"
+        ? window.location.pathname
+        : "/"
+      : String(pathname || "/");
+
+  if (!appPath.endsWith("/")) {
+    const lastSlashIndex = appPath.lastIndexOf("/");
+    const lastSegment = appPath.substring(lastSlashIndex + 1);
+    if (lastSegment.includes(".")) {
+      appPath = appPath.substring(0, lastSlashIndex + 1);
+    }
+  }
+
+  return appPath.replace(/\/+$/, "");
+}
+
+function getOdasProxyEndpoint(targetUrl, pathname) {
+  const appPath = getOdasAppBasePath(pathname);
+  return `${appPath}/odp-data?path=${encodeURIComponent(
+    extractPathFromUrl(targetUrl),
+  )}`;
+}
+
+async function fetchViaOdasProxy(targetUrl) {
+  const response = await fetch(getOdasProxyEndpoint(targetUrl), {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error(`ODAS-Proxy-Fehler: HTTP ${response.status}`);
+  }
+
+  const proxyData = await response.json();
+  if (!proxyData || typeof proxyData.content !== "string") {
+    throw new Error("ODAS-Proxy-Antwort enthält keinen content-String.");
+  }
+
+  return proxyData.content;
+}
+
+async function fetchOdasResource(targetUrl, configdata = {}) {
+  if (isOdasProxyEnabled(configdata)) {
+    return fetchViaOdasProxy(targetUrl);
+  }
+
+  try {
+    const response = await fetch(targetUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return response.text();
+  } catch (error) {
+    throw new Error(
+      `Direkter Datenabruf fehlgeschlagen (${error.message}). Bitte prüfen Sie die Daten-URL und die CORS-Freigabe der Datenquelle.`,
+    );
+  }
+}
+
+async function fetchOdasJson(targetUrl, configdata = {}) {
+  return JSON.parse(await fetchOdasResource(targetUrl, configdata));
+}
+
 function app(configdata = {}, enclosingHtmlDivElement) {
   // 1. CONFIGURATION
   const API_URL = configdata.apiurl || configdata.apiUrl || "";
   const RESOURCE_ID = configdata.resourceId || configdata.resourceid || "";
   const MAX_RECORDS = Number(configdata.maxRecords || configdata.maxrecords || 1000);
   const STANDARD_KATEGORIE = configdata.standardKategorie || configdata.standardkategorie || "alle";
-  const PROXY_AKTIV = configdata.proxyAktiv === "ja" || configdata.proxyaktiv === "ja";
 
   let mapCenter = [48.7396, 9.3097]; // Esslingen default
   const configKarteZentrum = configdata.karteZentrum || configdata.kartezentrum;
@@ -311,28 +388,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     }
   }
 
-  // 5. FETCH VIA PROXY OR DIRECT
-  function extractPathFromUrl(url) {
-    try {
-      const u = new URL(url);
-      return u.pathname + u.search;
-    } catch (e) {
-      return url;
-    }
-  }
-
-  async function fetchViaProxy(targetUrl) {
-    const fullPath = window.location.pathname.replace(/\/+$/, "");
-    const apiPath = extractPathFromUrl(targetUrl);
-    const proxyEndpoint = `${fullPath}/odp-data?path=${encodeURIComponent(apiPath)}`;
-    
-    const response = await fetch(proxyEndpoint, { method: "POST" });
-    if (!response.ok) {
-      throw new Error(`Proxy-Fehler: HTTP ${response.status}`);
-    }
-    const proxyData = await response.json();
-    return proxyData.content;
-  }
+  // 5. DATENABRUF: direkt oder ueber den ODAS-Proxy (proxyAktiv)
 
   async function loadAllData() {
     showLoading();
@@ -352,18 +408,13 @@ function app(configdata = {}, enclosingHtmlDivElement) {
           fetchUrl += `?resource_id=${encodeURIComponent(RESOURCE_ID)}&limit=${MAX_RECORDS}`;
         }
 
-        const isLocal = typeof window !== "undefined" && 
-          ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
-
-        if (PROXY_AKTIV && !isLocal && !API_URL.startsWith("../") && !API_URL.startsWith("./")) {
-          console.log("Lade Daten via ODAS Proxy...");
-          rawContent = await fetchViaProxy(fetchUrl);
-        } else {
-          console.log("Lade Daten direkt von:", fetchUrl);
-          const response = await fetch(fetchUrl);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          rawContent = await response.text();
-        }
+        // Relative Pfade liegen im eigenen Origin und brauchen nie den Proxy.
+        const istRelativ =
+          API_URL.startsWith("../") || API_URL.startsWith("./");
+        rawContent = await fetchOdasResource(
+          fetchUrl,
+          istRelativ ? {} : configdata,
+        );
 
         parseAndNormalize(rawContent);
 
