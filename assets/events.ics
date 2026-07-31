@@ -1,0 +1,187 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ODAS//EventKalender Referenzdatensatz//DE
+CALSCALE:GREGORIAN
+X-WR-CALNAME:EventKalender Referenzdatensatz
+BEGIN:VEVENT
+UID:event-1@events.example.org
+DTSTART;TZID=Europe/Berlin:20260731T090000
+DTEND;TZID=Europe/Berlin:20260731T120000
+SUMMARY:Öffentliche Haushaltssitzung
+LOCATION:Rathausforum\, Beispielplatz 1 73728 Esslingen
+CATEGORIES:Politik
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-2@events.example.org
+DTSTART;TZID=Europe/Berlin:20260731T180000
+DTEND;TZID=Europe/Berlin:20260731T220000
+SUMMARY:Sommerkonzert am Fluss
+LOCATION:Neckarbühne\, Flussufer 7 73730 Esslingen
+CATEGORIES:Kultur
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-3@events.example.org
+DTSTART;TZID=Europe/Berlin:20260801T160000
+DTEND;TZID=Europe/Berlin:20260801T210000
+SUMMARY:Offene Sportnacht
+LOCATION:Sporthalle West\, Beispielstraße 12 73734 Esslingen
+CATEGORIES:Sport
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-4@events.example.org
+DTSTART;TZID=Europe/Berlin:20260802T110000
+DTEND;TZID=Europe/Berlin:20260802T130000
+SUMMARY:Stadtführung für Einsteiger
+LOCATION:Treffpunkt Marktplatz\, Marktplatz 2 73728 Esslingen
+CATEGORIES:Kultur
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-5@events.example.org
+DTSTART;TZID=Europe/Berlin:20260803T170000
+DTEND;TZID=Europe/Berlin:20260803T200000
+SUMMARY:Workshop Digitale Medien
+LOCATION:Werkstatt Digital\, Beispielallee 9 73730 Esslingen
+CATEGORIES:Bildung
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-6@events.example.org
+DTSTART;TZID=Europe/Berlin:20260804T150000
+DTEND;TZID=Europe/Berlin:20260804T180000
+SUMMARY:Nachbarschaftscafé
+LOCATION:Quartierstreff Süd\, Beispielweg 4 73733 Esslingen
+CATEGORIES:Soziales
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-7@events.example.org
+DTSTART;TZID=Europe/Berlin:20260805T180000
+DTEND;TZID=Europe/Berlin:20260805T210000
+SUMMARY:Reparaturtreff
+LOCATION:Offene Werkstatt\, Industrieweg 11 73734 Esslingen
+CATEGORIES:Sonstiges
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-8@events.example.org
+DTSTART;TZID=Europe/Berlin:20260806T190000
+DTEND;TZID=Europe/Berlin:20260806T210000
+SUMMARY:Lesung im Innenhof
+LOCATION:Literaturhof\, Beispielgasse 5 73728 Esslingen
+CATEGORIES:Kultur
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-9@events.example.org
+DTSTART;TZID=Europe/Berlin:20260808T140000
+DTEND;TZID=Europe/Berlin:20260808T180000
+RRULE:FREQ=WEEKLY;BYDAY=SA;COUNT=8
+SUMMARY:Schach im Park
+LOCATION:Stadtpark Pavillon\, Parkweg 3 73728 Esslingen
+CATEGORIES:Soziales
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-10@events.example.org
+DTSTART;TZID=Europe/Berlin:20260810T100000
+DTEND;TZID=Europe/Berlin:20260810T160000
+SUMMARY:Sommermarkt der Vereine
+LOCATION:Marktplatz\, Marktplatz 1 73728 Esslingen
+CATEGORIES:Soziales
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-11@events.example.org
+DTSTART;TZID=Europe/Berlin:20260812T173000
+DTEND;TZID=Europe/Berlin:20260812T193000
+SUMMARY:Jugendbeirat im Gespräch
+LOCATION:Bürgerhaus Nord\, Beispielweg 18 73730 Esslingen
+CATEGORIES:Politik
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-12@events.example.org
+DTSTART;TZID=Europe/Berlin:20260815T100000
+DTEND;TZID=Europe/Berlin:20260815T150000
+SUMMARY:Grundkurs Fotografie
+LOCATION:Bildungszentrum\, Schulstraße 6 73730 Esslingen
+CATEGORIES:Bildung
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-13@events.example.org
+DTSTART;TZID=Europe/Berlin:20260820T170000
+DTEND;TZID=Europe/Berlin:20260820T200000
+SUMMARY:Sommerlauf für alle
+LOCATION:Neckarwiese\, Flussufer 2 73728 Esslingen
+CATEGORIES:Sport
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-14@events.example.org
+DTSTART;TZID=Europe/Berlin:20260822T100000
+DTEND;TZID=Europe/Berlin:20260822T120000
+SUMMARY:Stadtratssprechstunde
+LOCATION:Rathausforum\, Beispielplatz 1 73728 Esslingen
+CATEGORIES:Politik
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-15@events.example.org
+DTSTART;TZID=Europe/Berlin:20260829T110000
+DTEND;TZID=Europe/Berlin:20260829T150000
+SUMMARY:Familienwerkstatt Natur
+LOCATION:Naturwerkstatt Ost\, Beispielallee 21 73734 Esslingen
+CATEGORIES:Bildung
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-16@events.example.org
+DTSTART;TZID=Europe/Berlin:20260905T200000
+DTEND;TZID=Europe/Berlin:20260905T230000
+SUMMARY:Filmabend unter freiem Himmel
+LOCATION:Innenhof Kulturhaus\, Kulturweg 8 73730 Esslingen
+CATEGORIES:Kultur
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-17@events.example.org
+DTSTART;TZID=Europe/Berlin:20260912T090000
+DTEND;TZID=Europe/Berlin:20260912T140000
+SUMMARY:Erste-Hilfe-Kurs
+LOCATION:Seminarhaus Mitte\, Beispielstraße 20 73728 Esslingen
+CATEGORIES:Bildung
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-18@events.example.org
+DTSTART;TZID=Europe/Berlin:20260919T140000
+DTEND;TZID=Europe/Berlin:20260919T200000
+SUMMARY:Stadtteilfest am Bach
+LOCATION:Bachplatz\, Beispielweg 2 73733 Esslingen
+CATEGORIES:Sonstiges
+STATUS:CANCELLED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-19@events.example.org
+DTSTART;TZID=Europe/Berlin:20260926T100000
+DTEND;TZID=Europe/Berlin:20260926T150000
+SUMMARY:Herbstbörse für Fahrräder
+LOCATION:Mehrzweckhalle Süd\, Beispielring 10 73734 Esslingen
+CATEGORIES:Sport
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:event-20@events.example.org
+DTSTART;TZID=Europe/Berlin:20261003T110000
+DTEND;TZID=Europe/Berlin:20261003T180000
+SUMMARY:Erntefest im Quartier
+LOCATION:Quartiersplatz West\, Beispielweg 30 73730 Esslingen
+CATEGORIES:Soziales
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR

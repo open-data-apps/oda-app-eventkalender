@@ -390,103 +390,79 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // 5. DATENABRUF: direkt oder ueber den ODAS-Proxy (proxyAktiv)
 
+  function buildDataFetchUrl() {
+    const configuredApiUrl = String(API_URL || "").trim();
+    if (!configuredApiUrl) return "";
+
+    // Direct CSV/ICS/JSON downloads already identify their resource. Only a
+    // CKAN datastore_search endpoint needs resource_id and limit parameters.
+    if (!/\/datastore_search(?:$|\?)/i.test(configuredApiUrl) || !RESOURCE_ID) {
+      return configuredApiUrl;
+    }
+
+    const separator = configuredApiUrl.includes("?") ? "&" : "?";
+    return `${configuredApiUrl}${separator}resource_id=${encodeURIComponent(
+      RESOURCE_ID,
+    )}&limit=${encodeURIComponent(MAX_RECORDS)}`;
+  }
+
   async function loadAllData() {
     showLoading();
-    let rawContent = "";
-    let isFallbackNeeded = false;
+    const fetchUrl = buildDataFetchUrl();
 
-    // Check if the config url is empty or if we are using the default schema resource ID
-    if (!API_URL || RESOURCE_ID === "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3") {
-      console.log("Standard-Ressourcen-ID (Schema) oder leere API-URL erkannt. Verwende Mock-Daten.");
-      isFallbackNeeded = true;
+    if (!fetchUrl) {
+      const error = new Error("Keine Datenquelle konfiguriert.");
+      console.error("Fehler beim Laden der Veranstaltungsdaten:", error);
+      showError("Die Veranstaltungsdatenquelle ist nicht konfiguriert.");
+      return;
     }
 
-    if (!isFallbackNeeded) {
-      try {
-        let fetchUrl = API_URL;
-        if (RESOURCE_ID && !API_URL.endsWith(".json")) {
-          fetchUrl += `?resource_id=${encodeURIComponent(RESOURCE_ID)}&limit=${MAX_RECORDS}`;
-        }
-
-        // Relative Pfade liegen im eigenen Origin und brauchen nie den Proxy.
-        const istRelativ =
-          API_URL.startsWith("../") || API_URL.startsWith("./");
-        rawContent = await fetchOdasResource(
-          fetchUrl,
-          istRelativ ? {} : configdata,
-        );
-
-        parseAndNormalize(rawContent);
-
-        if (allEvents.length === 0) {
-          console.log("Keine Events im Datensatz gefunden. Verwende Mock-Daten.");
-          isFallbackNeeded = true;
-        }
-      } catch (err) {
-        console.error("Fehler beim Laden der Veranstaltungsdaten:", err);
-        isFallbackNeeded = true;
-      }
-    }
-
-    if (isFallbackNeeded) {
-      try {
-        console.log("Lade lokale Mock-Daten aus assets/events-mock.json...");
-        const isLocal = typeof window !== "undefined" && 
-          ["127.0.0.1", "localhost", "::1"].includes(window.location.hostname);
-        
-        let response;
-        if (isLocal) {
-          console.log("Lokal: Versuche ../assets/events-mock.json");
-          response = await fetch("../assets/events-mock.json");
-        } else {
-          console.log("Produktion: Versuche assets/events-mock.json");
-          response = await fetch("assets/events-mock.json");
-        }
-
-        const contentType = response.headers.get("content-type") || "";
-        if (!response.ok || contentType.includes("text/html")) {
-          const fallbackPath = isLocal ? "assets/events-mock.json" : "../assets/events-mock.json";
-          console.log(`Pfad fehlgeschlagen oder HTML-Antwort. Versuche Fallback-Pfad: ${fallbackPath}`);
-          response = await fetch(fallbackPath);
-        }
-
-        const finalContentType = response.headers.get("content-type") || "";
-        if (!response.ok || finalContentType.includes("text/html")) {
-          throw new Error(`HTTP ${response.status} oder unerwarteter Inhalt (HTML-Fallback)`);
-        }
-
-        rawContent = await response.text();
-        parseAndNormalize(rawContent);
-      } catch (fallbackErr) {
-        console.error("Konnte Mock-Daten nicht laden:", fallbackErr);
-        showError(`Die Daten konnten nicht geladen werden und der Fallback ist fehlgeschlagen.`);
-      }
+    try {
+      // Relative Pfade liegen im eigenen Origin und brauchen nie den Proxy.
+      const istRelativ = fetchUrl.startsWith("../") || fetchUrl.startsWith("./");
+      const rawContent = await fetchOdasResource(
+        fetchUrl,
+        istRelativ ? {} : configdata,
+      );
+      parseAndNormalize(rawContent);
+    } catch (err) {
+      console.error("Fehler beim Laden der Veranstaltungsdaten:", err);
+      allEvents = [];
+      filteredEvents = [];
+      showError("Die Veranstaltungsdaten konnten nicht geladen werden. Bitte prüfen Sie die Datenquelle.");
     }
   }
 
   // Parses CSV, JSON or ICS/iCal and normalizes the format
   function parseAndNormalize(content) {
     let parsedData = [];
-    
+
     if (content && typeof content === "string" && content.includes("BEGIN:VCALENDAR")) {
       console.log("iCalendar-Format (ICS) erkannt, parse...");
       parsedData = parseICS(content);
     } else {
-      // Check if JSON
+      let parsedJson = false;
       try {
         const json = JSON.parse(content);
         if (json.success && json.result && Array.isArray(json.result.records)) {
           parsedData = json.result.records;
+          parsedJson = true;
         } else if (Array.isArray(json)) {
           parsedData = json;
+          parsedJson = true;
         } else if (json.records && Array.isArray(json.records)) {
           parsedData = json.records;
+          parsedJson = true;
         } else if (json.data && Array.isArray(json.data)) {
           parsedData = json.data;
+          parsedJson = true;
         }
       } catch (err) {
         // JSON failed, try CSV parser
         console.log("JSON parsing fehlgeschlagen, versuche CSV...");
+      }
+
+      if (!parsedJson) {
         parsedData = parseCSV(content);
       }
     }
@@ -543,6 +519,12 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
     // Split headers
     const headers = splitCSVLine(header, delimiter).map(h => h.trim().toLowerCase());
+    const hasStartField = ["datum_start", "start", "dtstart"].some(field =>
+      headers.includes(field),
+    );
+    if (!hasStartField) {
+      throw new Error("CSV enthält kein erwartetes Startdatumsfeld.");
+    }
 
     const result = [];
     for (let i = 1; i < lines.length; i++) {

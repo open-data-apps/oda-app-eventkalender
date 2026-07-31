@@ -58,7 +58,23 @@ Die App unterstützt sowohl **JSON** als auch **CSV** als Datenquelle:
 - **JSON**: API-Endpunkt, der eine CKAN-Datastore-Struktur (`result.records`) oder ein direktes Array von Objekten liefert.
 - **CSV**: Komma- oder Semikolon-separierte CSV-Daten.
 
-Die Formaterkennung und Normalisierung erfolgt vollautomatisch.
+Die Formaterkennung und Normalisierung erfolgt vollautomatisch. Die App lädt ausschließlich
+die konfigurierte Quelle. Bei einem Abruf- oder Formatfehler erscheint eine sichtbare
+Fehlermeldung; es werden keine lokalen Ersatzdaten geladen.
+
+### Mitgelieferter Referenzdatensatz
+
+`assets/events.csv` enthält 20 frei erfundene Termine als maßgebliche Referenz zum
+[Datensatz „Eventkalender“](https://open-data-musterstadt.ckan.de/dataset/kalender_demo).
+Die öffentlich erreichbare Ressource ist die
+[events.csv](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
+`assets/events.ics` enthält dieselben Termine als iCalendar-Fassung. Veranstalter,
+Kontaktadressen und Veranstaltungslinks verwenden ausschließlich `example.org`; die
+Koordinaten dienen nur der Kartenansicht.
+
+Die Referenzdateien sind kein Produktions-Fallback. Die CSV ist als Ressource im CKAN-
+Datensatz veröffentlicht; die ICS-Datei bleibt als parallele Referenz- und Exportressource
+im App-Paket enthalten.
 
 ---
 
@@ -95,15 +111,11 @@ Die App arbeitet standardmäßig mit den folgenden Tabellenspalten (im Datastore
 - Make (für ZIP-Export)
 
 ### Lokales Starten via Live Server (Standard)
-1. Die App wird direkt aus dem `app/`-Verzeichnis heraus gestartet (z.B. mittels des VS Code Add-ons **Live Server** auf Port 5501).
-2. Die Datei `config.json` unter `/odas-config/config.json` stellt die lokale Konfiguration bereit, die auf die Mock-Datenbank zeigt.
-3. Zum lokalen Testen muss in der Funktion `getConfigUrl()` in `app/app-base.js` das Umschalten auf die lokale Konfigurationsdatei einkommentiert sein:
-   ```javascript
-   if (["127.0.0.1", "localhost"].includes(url.hostname)) {
-     configUrl = "../odas-config/config.json";
-   }
-   ```
-4. Der Server stellt die Anwendung unter `http://127.0.0.1:5501/app/` bereit.
+1. Die Projektwurzel mit **Live Server** öffnen (Standardport 5500).
+2. Die lokale `odas-config/config.json` lädt direkt die öffentliche
+   [CKAN-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv) (`proxyAktiv: "nein"`).
+3. Die App unter `http://127.0.0.1:5500/app/` öffnen. Die aktuelle Generic-Base lädt die
+   lokale Konfiguration unter localhost automatisch.
 
 ### Wichtige Dateien
 | Pfad | Beschreibung |
@@ -113,7 +125,8 @@ Die App arbeitet standardmäßig mit den folgenden Tabellenspalten (im Datastore
 | `app/app-base.js` | ODAS-Wrapper zum Laden der Konfiguration und Navigation |
 | `app-package.json` | Anwendungsmetadaten und UI-Parameter-Definitionen für ODAS |
 | `assets/schema.json` | Frictionless Data Schema der Event-Tabelle |
-| `assets/events-mock.json` | Repräsentativer Testdatensatz mit 15 Demoterminen |
+| `assets/events.csv` | Referenzdatensatz mit 20 fiktiven Terminen |
+| `assets/events.ics` | Dieselben Termine als iCalendar-Ressource |
 | `assets/odas-app-icon.svg` | Modern gestaltetes App-Icon (SVG) |
 
 ---
@@ -121,7 +134,8 @@ Die App arbeitet standardmäßig mit den folgenden Tabellenspalten (im Datastore
 ## Konfiguration (Instanz)
 Folgende Parameter werden bei der Instanziierung der App im Open Data App Store eingestellt:
 
-- `apiurl`: Die URL zum JSON- bzw. CSV-Endpunkt (für lokale Tests `../assets/events-mock.json`).
+- `apiurl`: Die URL zum JSON-, CSV- oder ICS-Endpunkt. In der ausgelieferten Konfiguration
+  ist dies die öffentliche [events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
 - `resourceId`: Die Ressourcen-ID für Datastore-Abfragen.
 - `maxRecords`: Die Begrenzung der maximal geladenen Datensätze (z.B. `"1000"`).
 - `standardKategorie`: Standard-Kategorievorwahl (z.B. `"alle"`).
@@ -130,6 +144,12 @@ Folgende Parameter werden bei der Instanziierung der App im Open Data App Store 
 - `proxyAktiv`: Steuert, ob der integrierte CORS-Proxy genutzt wird (`"ja"` oder `"nein"`).
 - `sprache`: Sprache der Oberfläche (`"de"`).
 - `titel` / `seitentitel`: Angezeigter App-Titel und HTML-Title-Tag.
+
+Die Paket-Defaults für `apiurl`, `resourceId` und `urlDaten` zeigen auf den [Datensatz
+„Eventkalender“](https://open-data-musterstadt.ckan.de/dataset/kalender_demo) und seine
+[events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
+Die Referenzdateien im Paket bleiben für Offline-Tests und die Byte-Identitätsprüfung
+erhalten, sind aber kein automatischer Fallback.
 
 ---
 
@@ -154,7 +174,8 @@ dem EntryPoint `websecure` und dem Zertifikatsresolver `letsencrypt`.
 
 1. In `docker-compose.standalone.yml` den Platzhalter `app1.example.com` durch den
    echten FQDN ersetzen.
-2. In `odas-config/config.json` `proxyAktiv` auf `nein` belassen.
+2. In `odas-config/config.json` `proxyAktiv` auf `nein` belassen und `apiurl` auf eine
+   CORS-fähige produktive Quelle setzen.
 3. Starten:
 
 ```bash

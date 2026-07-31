@@ -3,14 +3,14 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "eventkalender",
   "name": "EventKalender",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktiver Veranstaltungskalender mit Listen- und Kartenansicht, Teilnehmer-Gruppierung, Auswertungen und iCal-Export.",
   "beschreibung": [
     "_multiline_",
     "<p>Die EventKalender-App zeigt öffentliche Veranstaltungen und Termine in einer übersichtlichen Listen-, Karten- und Detailansicht.</p>",
-    "<p>Sie unterstützt Planung und Orientierung durch Filter, Auswertungen und iCal-Export.</p>",
+    "<p>Sie unterstützt Planung und Orientierung durch Filter, Auswertungen und iCal-Export. Die App lädt ausschließlich die konfigurierte Datenquelle und meldet Abruf- oder Formatfehler sichtbar.</p>",
     "<h3>Inhalte</h3>",
     "<p>Die App verarbeitet Veranstaltungstitel, Zeiträume, Orte, Kategorien, Veranstalter, Teilnehmende und optionale Wiederholungsinformationen.</p>",
     "<p>Karte, Terminliste, Auswertungen und Detailansichten greifen auf denselben konfigurierten Datensatz zu.</p>",
@@ -19,8 +19,7 @@
     "<h3>Für wen ist diese App?</h3>",
     "<p>Die App richtet sich an Bürger:innen, Veranstalter, Öffentlichkeitsarbeit und Kommunen, die Termine verständlich veröffentlichen möchten. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
     "<h3>Datenquelle</h3>",
-    "<p>Die Veranstaltungsdaten werden aus einer konfigurierten CKAN-Quelle oder aus einer lokalen Beispielressource geladen.</p>",
-    "<ul><li><strong>Open Data Portal:</strong> <a href=\"https://open-data-musterstadt.ckan.de\" target=\"_blank\" rel=\"noopener\">Open Data Musterstadt</a></li><li><strong>Ressource/API-Endpunkt:</strong> <a href=\"https://open-data-musterstadt.ckan.de/api/3/action/datastore_search\" target=\"_blank\" rel=\"noopener\">CKAN datastore_search API</a></li></ul>",
+    "<p>Die Veranstaltungsdaten werden aus dem <a href='https://open-data-musterstadt.ckan.de'>Open Data Portal Musterstadt</a> geladen: <a href='https://open-data-musterstadt.ckan.de/dataset/kalender_demo'>Datensatz „Eventkalender“</a> → Ressource <a href='https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv'>events.csv</a>. Das mitgelieferte CSV ist ein frei erfundener Referenzdatensatz für lokale Tests und wird nicht als Produktions-Fallback verwendet.</p>",
     "<h3>Open Data App Store</h3>",
     "<p>Diese App ist für den Open Data App Store vorbereitet und kann mit kommunalen Veranstaltungs- oder Termindaten betrieben werden.</p>"
   ],
@@ -31,8 +30,8 @@
   "daten": {
     "beschreibung": "Die App verarbeitet Veranstaltungskalender-Daten. Jedes Event muss mindestens ein Startdatum, einen Titel und eine ID besitzen. Optionale Felder umfassen Ortsangaben mit Geokoordinaten, Teilnehmer, Kategorien und Wiederholungsregeln.",
     "schema": "assets/schema.json",
-    "beispiel": "assets/events-mock.json",
-    "beispiel-url": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search"
+    "beispiel": "assets/events.csv",
+    "beispiel-url": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv"
   },
   "branding-css": "",
   "api-version": "1",
@@ -92,7 +91,7 @@
       "default": [
         "_multiline_",
         "<p>Die EventKalender-App zeigt öffentliche Veranstaltungen und Termine in einer übersichtlichen Listen-, Karten- und Detailansicht.</p>",
-        "<p>Sie unterstützt Planung und Orientierung durch Filter, Auswertungen und iCal-Export.</p>",
+        "<p>Sie unterstützt Planung und Orientierung durch Filter, Auswertungen und iCal-Export. Die App lädt ausschließlich die konfigurierte Datenquelle und meldet Abruf- oder Formatfehler sichtbar.</p>",
         "<h3>Inhalte</h3>",
         "<p>Die App verarbeitet Veranstaltungstitel, Zeiträume, Orte, Kategorien, Veranstalter, Teilnehmende und optionale Wiederholungsinformationen.</p>",
         "<p>Karte, Terminliste, Auswertungen und Detailansichten greifen auf denselben konfigurierten Datensatz zu.</p>",
@@ -101,8 +100,7 @@
         "<h3>Für wen ist diese App?</h3>",
         "<p>Die App richtet sich an Bürger:innen, Veranstalter, Öffentlichkeitsarbeit und Kommunen, die Termine verständlich veröffentlichen möchten. Besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
         "<h3>Datenquelle</h3>",
-        "<p>Die Veranstaltungsdaten werden aus einer konfigurierten CKAN-Quelle oder aus einer lokalen Beispielressource geladen.</p>",
-        "<ul><li><strong>Open Data Portal:</strong> <a href=\"https://open-data-musterstadt.ckan.de\" target=\"_blank\" rel=\"noopener\">Open Data Musterstadt</a></li><li><strong>Ressource/API-Endpunkt:</strong> <a href=\"https://open-data-musterstadt.ckan.de/api/3/action/datastore_search\" target=\"_blank\" rel=\"noopener\">CKAN datastore_search API</a></li></ul>",
+        "<p>Die Veranstaltungsdaten werden aus dem <a href='https://open-data-musterstadt.ckan.de'>Open Data Portal Musterstadt</a> geladen: <a href='https://open-data-musterstadt.ckan.de/dataset/kalender_demo'>Datensatz „Eventkalender“</a> → Ressource <a href='https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv'>events.csv</a>. Das mitgelieferte CSV ist ein frei erfundener Referenzdatensatz für lokale Tests und wird nicht als Produktions-Fallback verwendet.</p>",
         "<h3>Open Data App Store</h3>",
         "<p>Diese App ist für den Open Data App Store vorbereitet und kann mit kommunalen Veranstaltungs- oder Termindaten betrieben werden.</p>"
       ],
@@ -152,19 +150,19 @@
       "format": {
         "typ": "url"
       },
-      "default": "https://open-data-musterstadt.ckan.de/testdaten",
-      "beispiel": "https://open-data-musterstadt.ckan.de/dataset/veranstaltungen",
+      "default": "https://open-data-musterstadt.ckan.de/dataset/kalender_demo",
+      "beispiel": "https://open-data-musterstadt.ckan.de/dataset/kalender_demo",
       "erforderlich": "ja"
     },
     "apiurl": {
       "label": "URL zu den Daten",
-      "hilfe": "Basis-URL des CKAN-Endpunkts (z. B. datastore_search)",
+      "hilfe": "URL der CSV-, JSON- oder ICS-Ressource; bei datastore_search wird die Ressourcen-ID ergänzt",
       "format": {
         "typ": "url",
         "laenge": 255
       },
-      "default": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search",
-      "beispiel": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search",
+      "default": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv",
+      "beispiel": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv",
       "erforderlich": "ja"
     },
     "resourceId": {
@@ -233,13 +231,13 @@
       "format": {
         "typ": "markdown"
       },
-      "default": "<ul><li><a href='https://open-data-musterstadt.ckan.de' target='_blank' rel='noopener'>Open Data Portal — Veranstaltungsdaten</a></li><li><a href='https://open-data-musterstadt.ckan.de/testdaten' target='_blank' rel='noopener'>Direkt zum Datensatz</a></li><li><a href='https://www.openstreetmap.org/copyright' target='_blank' rel='noopener'>Karten: OpenStreetMap-Mitwirkende</a></li></ul>",
+      "default": "<p><a href='https://open-data-musterstadt.ckan.de'>Open Data Portal Musterstadt</a> → <a href='https://open-data-musterstadt.ckan.de/dataset/kalender_demo'>Datensatz „Eventkalender“</a> → <a href='https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv'>Ressource events.csv</a></p>",
       "erforderlich": "nein"
     },
     "datenquelleHinweis": {
       "label": "Methodik / Datenquelle-Hinweis",
       "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
-      "default": "<p>Die Veranstaltungen stammen aus dem <a href='https://open-data-musterstadt.ckan.de' target='_blank' rel='noopener'>Open Data Portal der Stadt</a> (CKAN bzw. iCal-Quelle) und werden im Browser aufbereitet.</p><p>Angezeigt werden nur gemeldete Termine; Vollständigkeit und Aktualität hängen vom Pflegestand der Datenquelle ab.</p>",
+      "default": "<p>Die produktive Veranstaltungsressource liegt im <a href='https://open-data-musterstadt.ckan.de'>Open Data Portal Musterstadt</a> als Datensatz <a href='https://open-data-musterstadt.ckan.de/dataset/kalender_demo'>„Eventkalender“</a> mit der Ressource <a href='https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv'>events.csv</a>. Die App lädt die Quelle direkt oder über den ODAS-Proxy und verarbeitet CSV-, JSON- und iCalendar-Antworten. Angezeigt werden die in der Quelle vorhandenen Termine; Vollständigkeit und Aktualität hängen vom Pflegestand der Datenquelle ab.</p>",
       "format": {
         "typ": "markdown"
       },
@@ -248,7 +246,7 @@
     "datenStand": {
       "label": "Datenstand",
       "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
-      "default": "Stand: laufend aus dem Open Data Portal",
+      "default": "Stand: Referenzdatensatz vom 31.07.2026",
       "format": {
         "typ": "string"
       },

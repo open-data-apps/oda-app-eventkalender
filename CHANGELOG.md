@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.0 - 2026-07-31
+- FIX: Gebündelten Mock-Fallback entfernt; die konfigurierte Datenquelle ist jetzt maßgeblich
+- FIX: Leere, fehlerhafte oder nicht erkennbare Datenquellen werden sichtbar gemeldet
+- FIX: CKAN-Parameter werden nur an `datastore_search`-Endpunkte angehängt
+- ENH: Fiktiver Referenzdatensatz als CSV und ICS für lokale Tests und Portal-Upload ergänzt
+- CHG: Produktive Defaults auf den CKAN-Datensatz `kalender_demo` und die Ressource `events.csv` gesetzt
+- DOC: README und Konzept auf die Quellen- und Fehlersemantik aktualisiert
+
 ## 1.7.0 - 2026-07-31
 - CHG: toter Konfigurationsschlüssel lizenz entfernt (F-17)
 - CHG: brandingCSS und brandingCSSFile als Base-Abhängigkeiten deklariert und lokal gespiegelt (F-17)

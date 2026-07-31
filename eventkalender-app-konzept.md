@@ -21,12 +21,16 @@ Die App unterstützt **mehrere Eingabeformate** und bietet einen **iCal-Export**
 
 ```json
 {
-  "apiUrl": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search",
+  "apiurl": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv",
   "resourceId": "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3",
   "titel": "EventKalender",
   "maxRecords": 1000
 }
 ```
+
+Die ausgelieferte App verwendet keinen Mock-Fallback. `apiurl` bezeichnet immer die
+maßgebliche konfigurierte Quelle und zeigt auf die [events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv) im [Datensatz „Eventkalender“](https://open-data-musterstadt.ckan.de/dataset/kalender_demo) des [Open Data Portals Musterstadt](https://open-data-musterstadt.ckan.de). `resourceId` bleibt für CKAN-Kompatibilität erhalten; bei direkten CSV-, ICS- oder JSON-URLs wird sie nicht an die URL angehängt. Eine leere, fehlerhafte oder nicht erkennbare
+Antwort wird als sichtbarer Fehlerzustand angezeigt.
 
 ### 2.2 Unterstützte Eingabeformate
 
@@ -184,7 +188,7 @@ function loadLeaflet(callback) {
 ### 4.3 iCal-Mapping CSV → .ics
 
 ```
-event_id       → UID:[event_id]@musterstadt.de
+event_id       → UID:[event_id]@events.example.org
 titel          → SUMMARY:[titel]
 beschreibung   → DESCRIPTION:[beschreibung]
 datum_start    → DTSTART;TZID=[zeitzone]:[datum_start formatted]
@@ -232,19 +236,19 @@ function generateICS(events) {
 ### 5.1 Basis-Abfrage
 
 ```
-GET {apiUrl}?resource_id={resourceId}&limit=100&offset=0
+GET {apiurl}?resource_id={resourceId}&limit=100&offset=0
 ```
 
 ### 5.2 Gefilterte Abfrage
 
 ```
-GET {apiUrl}?resource_id={resourceId}&filters={"kategorie":"Politik"}&limit=100
+GET {apiurl}?resource_id={resourceId}&filters={"kategorie":"Politik"}&limit=100
 ```
 
 ### 5.3 Freitext-Suche
 
 ```
-GET {apiUrl}?resource_id={resourceId}&q=Stadtrat&limit=100
+GET {apiurl}?resource_id={resourceId}&q=Stadtrat&limit=100
 ```
 
 ### 5.4 Paginierung
@@ -265,7 +269,7 @@ GET {apiUrl}?resource_id={resourceId}&q=Stadtrat&limit=100
 function app(configdata, enclosingHtmlDivElement) {
 
   // 1. KONFIGURATION
-  const API_URL     = configdata.apiUrl;
+  const API_URL     = configdata.apiurl;
   const RESOURCE_ID = configdata.resourceId;
   const LIMIT       = 100;
 
@@ -379,9 +383,9 @@ Beim Klick auf ein Event (Ablaufplan oder Kartenpin) öffnet rechts ein Sidepane
 
 ```json
 {
-  "apiUrl": "https://open-data-musterstadt.ckan.de/api/3/action/datastore_search",
+  "apiurl": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv",
   "resourceId": "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3",
-  "titel": "Veranstaltungskalender Musterstadt",
+  "titel": "Veranstaltungskalender Esslingen",
   "maxRecords": 1000,
   "standardKategorie": "alle",
   "karteZentrum": [48.7396, 9.3097],
@@ -401,5 +405,4 @@ Beim Klick auf ein Event (Ablaufplan oder Kartenpin) öffnet rechts ein Sidepane
 - [ ] Alle `datum_start`-Werte werden auf ISO 8601 geprüft vor Verarbeitung
 - [ ] `branding.css` 404 lokal → ignorieren, im ODAS-Betrieb vorhanden
 - [ ] `integrity`-Hash bei dynamisch geladenem Leaflet **weglassen**
-- [ ] App unter `http://127.0.0.1:5501/app/` lokal getestet
-
+- [ ] App unter `http://127.0.0.1:5500/app/` lokal getestet
