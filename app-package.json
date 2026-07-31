@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "eventkalender",
   "name": "EventKalender",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktiver Veranstaltungskalender mit Listen- und Kartenansicht, Teilnehmer-Gruppierung, Auswertungen und iCal-Export.",
@@ -41,16 +41,6 @@
       "label": "Seitentitel",
       "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
       "default": "EventKalender Esslingen",
-      "format": {
-        "typ": "string",
-        "laenge": 50
-      },
-      "erforderlich": "ja"
-    },
-    "lizenz": {
-      "label": "Lizenz",
-      "hilfe": "Angabe der Lizenz, die für die Nutzung der App gilt.",
-      "default": "Open Software License (OSL)",
       "format": {
         "typ": "string",
         "laenge": 50
@@ -154,6 +144,16 @@
         "laenge": 100
       },
       "default": "(C) Copyright 2026 | Stadt Esslingen | App-Entwickler: Ondics GmbH",
+      "erforderlich": "ja"
+    },
+    "urlDaten": {
+      "label": "URL zum Datensatz im ODP",
+      "hilfe": "Der Datensatz im Open Data Portal mit den Veranstaltungsdaten",
+      "format": {
+        "typ": "url"
+      },
+      "default": "https://open-data-musterstadt.ckan.de/testdaten",
+      "beispiel": "https://open-data-musterstadt.ckan.de/dataset/veranstaltungen",
       "erforderlich": "ja"
     },
     "apiurl": {
@@ -302,12 +302,32 @@
     "sprache": {
       "label": "Sprache der App",
       "hilfe": "Angabe der App-Sprache",
+      "default": "de",
       "format": {
         "typ": "dropdown",
-        "optionen": ["de"],
-        "default": "de"
+        "optionen": ["de"]
       },
       "erforderlich": "ja"
+    },
+    "brandingCSS": {
+      "label": "Zusätzliches Branding-CSS",
+      "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
+      "default": "",
+      "format": {
+        "typ": "string",
+        "laenge": 10000
+      },
+      "erforderlich": "nein"
+    },
+    "brandingCSSFile": {
+      "label": "Branding-CSS-Datei",
+      "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
+      "default": "",
+      "format": {
+        "typ": "url",
+        "laenge": 500
+      },
+      "erforderlich": "nein"
     }
   }
 }

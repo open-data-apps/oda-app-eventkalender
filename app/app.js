@@ -83,20 +83,20 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
 
 function app(configdata = {}, enclosingHtmlDivElement) {
   // 1. CONFIGURATION
-  const API_URL = configdata.apiurl || configdata.apiUrl || "";
-  const RESOURCE_ID = configdata.resourceId || configdata.resourceid || "";
-  const MAX_RECORDS = Number(configdata.maxRecords || configdata.maxrecords || 1000);
-  const STANDARD_KATEGORIE = configdata.standardKategorie || configdata.standardkategorie || "alle";
+  const API_URL = configdata.apiurl || "";
+  const RESOURCE_ID = configdata.resourceId || "";
+  const MAX_RECORDS = Number(configdata.maxRecords || 1000);
+  const STANDARD_KATEGORIE = configdata.standardKategorie || "alle";
 
   let mapCenter = [48.7396, 9.3097]; // Esslingen default
-  const configKarteZentrum = configdata.karteZentrum || configdata.kartezentrum;
+  const configKarteZentrum = configdata.karteZentrum;
   if (configKarteZentrum && typeof configKarteZentrum === "string") {
     const coords = configKarteZentrum.split(",").map(Number);
     if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
       mapCenter = coords;
     }
   }
-  const mapZoom = Number(configdata.karteZoom || configdata.kartezoom || 12);
+  const mapZoom = Number(configdata.karteZoom || 12);
 
   // 2. STATE
   let allEvents = [];
