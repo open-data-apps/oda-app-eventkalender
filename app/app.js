@@ -1664,12 +1664,12 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     const link = document.createElement("link");
     link.id = "leaflet-css";
     link.rel = "stylesheet";
-    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    link.href = "vendor/leaflet/leaflet.css";
     document.head.appendChild(link);
 
     const script = document.createElement("script");
     script.id = "leaflet-js";
-    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.src = "vendor/leaflet/leaflet.js";
     script.async = true;
     script.onload = () => {
       // Load Leaflet marker cluster after core Leaflet
@@ -1702,7 +1702,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     }
     const script = document.createElement("script");
     script.id = "chart-js";
-    script.src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js";
+    script.src = "vendor/chartjs/chart.umd.min.js";
     script.async = true;
     script.onload = callback;
     document.head.appendChild(script);
