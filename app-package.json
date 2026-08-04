@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "eventkalender",
   "name": "EventKalender",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktiver Veranstaltungskalender mit Listen- und Kartenansicht, Teilnehmer-Gruppierung, Auswertungen und iCal-Export.",
@@ -23,10 +23,25 @@
     "<h3>Open Data App Store</h3>",
     "<p>Diese App ist für den Open Data App Store vorbereitet und kann mit kommunalen Veranstaltungs- oder Termindaten betrieben werden.</p>"
   ],
-  "tags-funktion": ["Kalender", "Veranstaltungen", "Karte", "Statistik"],
-  "tags-dateityp": ["CSV", "JSON", "ICS"],
-  "tags-datenart": ["Events", "Stadtleben", "Kommunales"],
-  "screenshots": ["assets/Desktop_Screenshot.png"],
+  "tags-funktion": [
+    "Kalender",
+    "Veranstaltungen",
+    "Karte",
+    "Statistik"
+  ],
+  "tags-dateityp": [
+    "CSV",
+    "JSON",
+    "ICS"
+  ],
+  "tags-datenart": [
+    "Events",
+    "Stadtleben",
+    "Kommunales"
+  ],
+  "screenshots": [
+    "assets/Desktop_Screenshot.png"
+  ],
   "daten": {
     "beschreibung": "Die App verarbeitet Veranstaltungskalender-Daten. Jedes Event muss mindestens ein Startdatum, einen Titel und eine ID besitzen. Optionale Felder umfassen Ortsangaben mit Geokoordinaten, Teilnehmer, Kategorien und Wiederholungsregeln.",
     "schema": "assets/schema.json",
@@ -130,7 +145,8 @@
       "default": [
         "_multiline_",
         "Diese Anwendung speichert keine personenbezogenen Daten.",
-        "Alle Abfragen erfolgen anonym über den Server."
+        "Alle Abfragen erfolgen anonym über den Server.",
+        "<h3>Beim Aufruf kontaktierte Drittanbieter</h3><p>Beim Aufruf dieser App werden Bibliotheken bzw. Kartendienste von folgenden externen Servern geladen. Dabei werden IP-Adresse und User-Agent der Besucher:innen an diese Anbieter übertragen:</p><ul><li><strong>cdn.jsdelivr.net</strong> — Bootstrap (Layout- und UI-Framework), Chart.js (Diagramme)</li><li><strong>unpkg.com</strong> — Leaflet (Kartendarstellung), Leaflet MarkerCluster (Gruppierung von Kartenmarkern)</li><li><strong>tile.openstreetmap.org</strong> — Kartenkacheln (OpenStreetMap)</li></ul>"
       ],
       "erforderlich": "ja"
     },
@@ -303,7 +319,9 @@
       "default": "de",
       "format": {
         "typ": "dropdown",
-        "optionen": ["de"]
+        "optionen": [
+          "de"
+        ]
       },
       "erforderlich": "ja"
     },
