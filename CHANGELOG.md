@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.18.0 - 2026-08-06
+- CHG: DOM-Zugriffe auf den App-Container gescopt (F-25, Tranche 3): die unpräfixierte ID `map-btn-show-${ev.event_id}` (Button im Leaflet-Popup) wird mit dem rootId-Präfix versehen (`${rootId}-map-btn-show-${ev.event_id}`, rootId ist an beiden Stellen im Scope); der Klassen-Zugriff `.agenda-list` wird über den App-Container gescopt (kein Rename, Ziel ist die Ablaufplan-Liste, nicht die Attendee-Liste)
+
 ## 1.17.0 - 2026-08-06
 - FIX: Datenschutzangabe beschreibt den tatsaechlichen Stand nach dem Vendoring (Welle G)
 

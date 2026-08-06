@@ -1072,7 +1072,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
               <div class="small text-muted" style="margin-bottom:2px;">📅 ${timeStr}</div>
               <div class="small text-muted" style="margin-bottom:5px;">📍 ${escapeHtml(ev.ort_name)}</div>
               ${ev.teilnehmer ? `<div class="small text-truncate" style="margin-bottom:6px;">👥 ${escapeHtml(ev.teilnehmer)}</div>` : ""}
-              <button class="btn btn-xs btn-outline-event w-100 py-1 text-center" style="font-size:0.75rem; border-radius:4px;" id="map-btn-show-${ev.event_id}">
+              <button class="btn btn-xs btn-outline-event w-100 py-1 text-center" style="font-size:0.75rem; border-radius:4px;" id="${rootId}-map-btn-show-${ev.event_id}">
                 Details anzeigen
               </button>
             </div>
@@ -1082,7 +1082,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
             .bindPopup(popupHtml);
 
           marker.on("popupopen", () => {
-            const btn = document.getElementById(`map-btn-show-${ev.event_id}`);
+            const btn = document.getElementById(`${rootId}-map-btn-show-${ev.event_id}`);
             if (btn) {
               btn.addEventListener("click", () => {
                 selectEvent(ev);
@@ -1459,7 +1459,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     panel.querySelector(`#${rootId}-detail-close`).addEventListener("click", () => {
       selectEvent(null);
       // Remove active classes in Agenda List
-      const listDiv = document.querySelector(`.agenda-list`);
+      const root = document.getElementById(rootId);
+      const listDiv = root ? root.querySelector(".agenda-list") : null;
       if (listDiv) {
         listDiv.querySelectorAll(".agenda-item").forEach(i => i.classList.remove("active"));
       }
