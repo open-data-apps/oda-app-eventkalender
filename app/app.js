@@ -1676,18 +1676,18 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       const clusterLink = document.createElement("link");
       clusterLink.id = "leaflet-markercluster-css";
       clusterLink.rel = "stylesheet";
-      clusterLink.href = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css";
+      clusterLink.href = "vendor/markercluster/MarkerCluster.css";
       document.head.appendChild(clusterLink);
 
       const clusterDefaultLink = document.createElement("link");
       clusterDefaultLink.id = "leaflet-markercluster-default-css";
       clusterDefaultLink.rel = "stylesheet";
-      clusterDefaultLink.href = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css";
+      clusterDefaultLink.href = "vendor/markercluster/MarkerCluster.Default.css";
       document.head.appendChild(clusterDefaultLink);
 
       const clusterScript = document.createElement("script");
       clusterScript.id = "leaflet-markercluster-js";
-      clusterScript.src = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js";
+      clusterScript.src = "vendor/markercluster/leaflet.markercluster.js";
       clusterScript.async = true;
       clusterScript.onload = callback;
       document.head.appendChild(clusterScript);
