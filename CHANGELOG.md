@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.19.0 - 2026-08-07
+- CHG: Bootstrap-Ziele instanzeindeutig (F-32): KPI-Kontext-Ziele auf Portfolio-Stil umgestellt (`#kpi-kontext-<n>` → `#ek-kpi-kontext-<n>-<ekUid>`) und Methodik- sowie Attribut-Accordion-Ziele (`#event-methodik-body`, `att-coll-*`) um eine Instanzkennung ergänzt — mehrere Instanzen derselben App auf einer Seite klappen ihre Panels unabhängig auf; die CSS-Klassen `kpi-info-toggle`/`kpi-info-icon`/`kpi-kontext` bleiben unverändert
+
 ## 1.18.0 - 2026-08-06
 - CHG: DOM-Zugriffe auf den App-Container gescopt (F-25, Tranche 3): die unpräfixierte ID `map-btn-show-${ev.event_id}` (Button im Leaflet-Popup) wird mit dem rootId-Präfix versehen (`${rootId}-map-btn-show-${ev.event_id}`, rootId ist an beiden Stellen im Scope); der Klassen-Zugriff `.agenda-list` wird über den App-Container gescopt (kein Rename, Ziel ist die Ablaufplan-Liste, nicht die Attendee-Liste)
 

@@ -3,6 +3,8 @@
  * (C) Ondics GmbH, 2026
  */
 
+let ekInstanzZaehler = 0;
+
 function isOdasProxyEnabled(configdata = {}) {
   return String(configdata.proxyAktiv || "").trim().toLowerCase() === "ja";
 }
@@ -82,6 +84,7 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
 }
 
 function app(configdata = {}, enclosingHtmlDivElement) {
+  const ekUid = "i" + ++ekInstanzZaehler;
   // 1. CONFIGURATION
   const API_URL = configdata.apiurl || "";
   const RESOURCE_ID = configdata.resourceId || "";
@@ -157,11 +160,11 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       : "";
     return (
       '<section class="event-methodik">' +
-      '<button class="event-methodik-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event-methodik-body" aria-expanded="false" aria-controls="event-methodik-body">' +
+      '<button class="event-methodik-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#event-methodik-body-' + ekUid + '" aria-expanded="false" aria-controls="event-methodik-body-' + ekUid + '">' +
       '<h2 class="event-methodik-title">Methodik &amp; Datenquelle</h2>' +
       '<span class="event-methodik-chevron" aria-hidden="true">&#9662;</span>' +
       "</button>" +
-      '<div id="event-methodik-body" class="collapse">' +
+      '<div id="event-methodik-body-' + ekUid + '" class="collapse">' +
       '<div class="event-methodik-body-inner">' +
       standHtml +
       hinweis +
@@ -813,12 +816,12 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       if (!t) return "";
       return (
         '<button class="kpi-info-toggle collapsed" type="button" ' +
-        'data-bs-toggle="collapse" data-bs-target="#kpi-kontext-' + n + '" ' +
-        'aria-expanded="false" aria-controls="kpi-kontext-' + n + '" ' +
+        'data-bs-toggle="collapse" data-bs-target="#ek-kpi-kontext-' + n + '-' + ekUid + '" ' +
+        'aria-expanded="false" aria-controls="ek-kpi-kontext-' + n + '-' + ekUid + '" ' +
         'aria-label="Erklärung zu diesem Wert">' +
         '<span class="kpi-info-icon" aria-hidden="true">ⓘ</span>' +
         '</button>' +
-        '<div id="kpi-kontext-' + n + '" class="collapse">' +
+        '<div id="ek-kpi-kontext-' + n + '-' + ekUid + '" class="collapse">' +
         '<div class="kpi-kontext">' + escapeHtml(t) + '</div>' +
         '</div>'
       );
@@ -1154,7 +1157,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         // Sort events chronologically
         events.sort((a, b) => new Date(a.datum_start) - new Date(b.datum_start));
 
-        const collapsibleId = `att-coll-${name.replace(/[^a-zA-Z0-9]/g, "")}`;
+        const collapsibleId = `att-coll-${name.replace(/[^a-zA-Z0-9]/g, "")}-${ekUid}`;
 
         return `
           <div class="border rounded p-2 mb-2 bg-light">
