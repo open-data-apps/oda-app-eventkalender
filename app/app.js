@@ -123,7 +123,10 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     q: ""
   };
 
-  const rootId = `eventkalender-${Date.now()}`;
+  // Instanzkennung: ekUid ("i" + N) und rootId ("eventkalender-" + N)
+  // teilen sich denselben Zählerstand N aus ++ekInstanzZaehler — damit sind
+  // beide IDs je Instanz monoton eindeutig und bleiben über Renders stabil.
+  const rootId = "eventkalender-" + ekInstanzZaehler;
 
   // Helper: Escape HTML to prevent XSS
   function escapeHtml(str) {

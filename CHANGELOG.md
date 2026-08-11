@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.21.0 - 2026-08-11
+- FIX: Laufzeitzustand pro App-Instanz isoliert (F-42): `rootId` aus `Date.now()` durch den monotonen Instanzzähler ersetzt — `const rootId = "eventkalender-" + ekInstanzZaehler;` teilt sich mit `ekUid = "i" + ++ekInstanzZaehler` denselben Zählerstand N; alle `document.getElementById`-Zugriffe auf `${rootId}-…`-IDs bleiben damit je Instanz eindeutig und kollidieren bei mehreren gleichzeitig gemounteten Instanzen nicht mehr
+
 ## 1.20.0 - 2026-08-11
 - FIX: XSS- und URL-Vertrag geschlossen (F-35): neuer Top-Level-Helfer `safeHttpUrl`; `event_id` wird an allen dynamischen ID-/`data-id`-Stellen (Agenda-Liste, Karten-Button, Attributionslink) escapt; Event-URL nur noch als Link gerendert, wenn sie ein gültiges http(s)-Schema hat (ICS-Export unverändert)
 
