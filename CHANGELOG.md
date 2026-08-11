@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.22.0 - 2026-08-11
+- FIX: Laufzeitressourcen beim Seitenwechsel freigeben (F-43): neuer Top-Level-Hook `onPageLeave(page)`, der je Instanz die Leaflet-Karte entfernt und die beiden Chart.js-Instanzen (Balken/Donut) zerstört; das `disposed`-Flag macht späte Async-Renders (nach `loadLeaflet`/`loadChartJS`/Datenabruf) wirkungslos; zusätzlich wird die Karte beim Re-Render des Karte-Tabs vor dem `innerHTML`-Austausch entfernt (bisher blieb die Leaflet-Instanz mit Listenern und Tile-Requests aktiv)
+
 ## 1.21.0 - 2026-08-11
 - FIX: Laufzeitzustand pro App-Instanz isoliert (F-42): `rootId` aus `Date.now()` durch den monotonen Instanzzähler ersetzt — `const rootId = "eventkalender-" + ekInstanzZaehler;` teilt sich mit `ekUid = "i" + ++ekInstanzZaehler` denselben Zählerstand N; alle `document.getElementById`-Zugriffe auf `${rootId}-…`-IDs bleiben damit je Instanz eindeutig und kollidieren bei mehreren gleichzeitig gemounteten Instanzen nicht mehr
 

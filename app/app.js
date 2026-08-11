@@ -5,6 +5,14 @@
 
 let ekInstanzZaehler = 0;
 
+// F-43: Registrierte Instanzen (Container -> Runtime), damit der Top-Level-Hook
+// onPageLeave() alle gemounteten Instanzen aufraeumen kann. Die Base ruft den
+// Hook global ohne Container-Parameter auf; eine iterierbare Map ist daher das
+// zur App passende Muster (schulwegsicherheit-Portfoliomuster). Die Runtime
+// haelt eine dispose()-Funktion, die auf die Closure-Variablen der Instanz
+// (leafletMap, chartInstanceBar, chartInstanceDoughnut) zugreifen kann.
+const eventKalenderInstances = new Map();
+
 function isOdasProxyEnabled(configdata = {}) {
   return String(configdata.proxyAktiv || "").trim().toLowerCase() === "ja";
 }
@@ -83,6 +91,21 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
   return JSON.parse(await fetchOdasResource(targetUrl, configdata));
 }
 
+/*
+ * Template-Hook (oda-generic 1.4.0). Die Base ruft ihn vor dem Rendern der neuen
+ * Seite auf. Diese App haelt eine Leaflet-Karte und zwei Chart.js-Instanzen in
+ * der Instanz-Closure; der Hook raeumt alle gemounteten Instanzen ueber die
+ * registrierte dispose()-Funktion ab und macht späte Async-Renders (nach
+ * loadLeaflet()/loadChartJS()/fetchOdasResource) durch das disposed-Flag
+ * wirkungslos.
+ */
+function onPageLeave(page) {
+  eventKalenderInstances.forEach((runtime, container) => {
+    runtime.dispose();
+    eventKalenderInstances.delete(container);
+  });
+}
+
 function app(configdata = {}, enclosingHtmlDivElement) {
   const ekUid = "i" + ++ekInstanzZaehler;
   // 1. CONFIGURATION
@@ -127,6 +150,40 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // teilen sich denselben Zählerstand N aus ++ekInstanzZaehler — damit sind
   // beide IDs je Instanz monoton eindeutig und bleiben über Renders stabil.
   const rootId = "eventkalender-" + ekInstanzZaehler;
+
+  let disposed = false;
+
+  const runtime = {
+    dispose() {
+      disposed = true;
+      if (leafletMap) {
+        try {
+          leafletMap.remove();
+        } catch (error) {
+          console.warn("Fehler beim Entfernen der Leaflet-Karte:", error);
+        }
+        leafletMap = null;
+        markerLayer = null;
+      }
+      if (chartInstanceBar) {
+        try {
+          chartInstanceBar.destroy();
+        } catch (error) {
+          console.warn("Fehler beim Zerstören des Balkendiagramms:", error);
+        }
+        chartInstanceBar = null;
+      }
+      if (chartInstanceDoughnut) {
+        try {
+          chartInstanceDoughnut.destroy();
+        } catch (error) {
+          console.warn("Fehler beim Zerstören des Kreisdiagramms:", error);
+        }
+        chartInstanceDoughnut = null;
+      }
+    },
+  };
+  eventKalenderInstances.set(enclosingHtmlDivElement, runtime);
 
   // Helper: Escape HTML to prevent XSS
   function escapeHtml(str) {
@@ -430,8 +487,10 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         fetchUrl,
         istRelativ ? {} : configdata,
       );
+      if (disposed) return;
       parseAndNormalize(rawContent);
     } catch (err) {
+      if (disposed) return;
       console.error("Fehler beim Laden der Veranstaltungsdaten:", err);
       allEvents = [];
       filteredEvents = [];
@@ -1019,6 +1078,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // 10. TAB 2: KARTENANSICHT
   function renderKarte(container) {
+    // F-43: Beim Re-Render des Karte-Tabs ersetzt `container.innerHTML` das
+    // bisherige Map-Element. Die alte Leaflet-Instanz muss vorher entfernt
+    // werden, sonst bleibt sie mit Event-Listenern und Tile-Requests aktiv
+    // (Ressourcen-Leak; Leaflet-Maps haengen nicht am DOM-Node).
+    if (leafletMap) {
+      leafletMap.remove();
+      leafletMap = null;
+      markerLayer = null;
+    }
+
     container.innerHTML = `
       <div id="${rootId}-map-canvas" class="event-map-container"></div>
       <div class="d-flex justify-content-end gap-3 mt-2 flex-wrap text-muted small fw-bold">
@@ -1033,6 +1102,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     `;
 
     loadLeaflet(() => {
+      if (disposed) return;
       const mapDiv = document.getElementById(`${rootId}-map-canvas`);
       if (!mapDiv || !window.L) return;
 
@@ -1243,6 +1313,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     `;
 
     loadChartJS(() => {
+      if (disposed) return;
       const barCanvas = document.getElementById(`${rootId}-chart-bar`);
       const doughnutCanvas = document.getElementById(`${rootId}-chart-doughnut`);
       if (!barCanvas || !doughnutCanvas || !window.Chart) return;
