@@ -937,14 +937,15 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       }
 
       const isSelected = selectedEvent && selectedEvent.event_id === ev.event_id;
-      const isCancelled = ev.status === "abgesagt";
+    const isCancelled = ev.status === "abgesagt";
+    const u = safeHttpUrl(ev.url);
       const isRecurring = ev.wiederholung ? "🔄" : "";
       
       const categoryClass = getCategoryBadgeClass(ev.kategorie);
       const timeStr = formatEventTimeRange(ev.datum_start, ev.datum_ende);
 
       html += `
-        <div class="agenda-item ${isSelected ? "active" : ""}" data-id="${ev.event_id}">
+        <div class="agenda-item ${isSelected ? "active" : ""}" data-id="${escapeHtml(ev.event_id)}">
           <div class="agenda-left">
             <div class="agenda-meta">
               <span class="badge-kat bg-kat-${categoryClass}">${escapeHtml(ev.kategorie)}</span>
@@ -1075,7 +1076,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
               <div class="small text-muted" style="margin-bottom:2px;">📅 ${timeStr}</div>
               <div class="small text-muted" style="margin-bottom:5px;">📍 ${escapeHtml(ev.ort_name)}</div>
               ${ev.teilnehmer ? `<div class="small text-truncate" style="margin-bottom:6px;">👥 ${escapeHtml(ev.teilnehmer)}</div>` : ""}
-              <button class="btn btn-xs btn-outline-event w-100 py-1 text-center" style="font-size:0.75rem; border-radius:4px;" id="${rootId}-map-btn-show-${ev.event_id}">
+              <button class="btn btn-xs btn-outline-event w-100 py-1 text-center" style="font-size:0.75rem; border-radius:4px;" id="${rootId}-map-btn-show-${escapeHtml(ev.event_id)}">
                 Details anzeigen
               </button>
             </div>
@@ -1085,7 +1086,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
             .bindPopup(popupHtml);
 
           marker.on("popupopen", () => {
-            const btn = document.getElementById(`${rootId}-map-btn-show-${ev.event_id}`);
+            const btn = document.getElementById(`${rootId}-map-btn-show-${escapeHtml(ev.event_id)}`);
             if (btn) {
               btn.addEventListener("click", () => {
                 selectEvent(ev);
@@ -1176,7 +1177,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
                   return `
                     <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 py-2 px-1 rounded" 
                          style="cursor:pointer; font-size:0.85rem;" 
-                         id="att-ev-link-${ev.event_id}">
+                         id="att-ev-link-${escapeHtml(ev.event_id)}">
                       <div>
                         <span class="badge-kat bg-kat-${categoryClass} me-2" style="font-size:0.65rem;">
                           ${escapeHtml(ev.kategorie)}
@@ -1200,7 +1201,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       filteredList.forEach(name => {
         const events = participantMap.get(name);
         events.forEach(ev => {
-          const item = resultDiv.querySelector(`#att-ev-link-${ev.event_id}`);
+          const item = resultDiv.querySelector(`#att-ev-link-${escapeHtml(ev.event_id)}`);
           if (item) {
             item.addEventListener("click", (e) => {
               e.stopPropagation();
@@ -1442,9 +1443,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
           </div>
         ` : ""}
 
-        ${ev.url ? `
+        ${u ? `
           <div class="mt-3">
-            <a href="${escapeHtml(ev.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-event w-100">
+            <a href="${escapeHtml(u)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-event w-100">
               🔗 Mehr erfahren &rarr;
             </a>
           </div>
@@ -1720,4 +1721,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 // ═══════════════════════════════════════════
 function addToHead() {
   return;
+}
+
+function safeHttpUrl(value) {
+  const s = String(value || "").trim();
+  return /^https?:\/\//i.test(s) ? s : "";
 }
