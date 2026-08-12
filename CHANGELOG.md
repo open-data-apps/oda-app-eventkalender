@@ -1,5 +1,9 @@
 # Changelog
 
+
+## 1.24.0 - 2026-08-12
+- FIX: `app/index.html` auf den Template-Stand (F-47): Datei byte-gleich aus `oda-generic` übernommen — gültiges HTML, deutsche ARIA-Labels, Footer im Body; Titel und Fußzeile bleiben Platzhalter und werden zur Laufzeit aus der Instanz-Config überschrieben
+
 ## 1.23.0 - 2026-08-12
 - FIX: Widersprüchlichen Datenschutzsatz „Alle Abfragen erfolgen anonym über den Server." aus Datenschutz-Default und lokalem Mirror entfernt — die offene Offenlegung der an Drittanbieter übertragenen Daten bleibt stehen (F-53)
 
