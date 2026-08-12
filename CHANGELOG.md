@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.23.0 - 2026-08-12
+- FIX: Widersprüchlichen Datenschutzsatz „Alle Abfragen erfolgen anonym über den Server." aus Datenschutz-Default und lokalem Mirror entfernt — die offene Offenlegung der an Drittanbieter übertragenen Daten bleibt stehen (F-53)
+
 ## 1.22.0 - 2026-08-11
 - FIX: Laufzeitressourcen beim Seitenwechsel freigeben (F-43): neuer Top-Level-Hook `onPageLeave(page)`, der je Instanz die Leaflet-Karte entfernt und die beiden Chart.js-Instanzen (Balken/Donut) zerstört; das `disposed`-Flag macht späte Async-Renders (nach `loadLeaflet`/`loadChartJS`/Datenabruf) wirkungslos; zusätzlich wird die Karte beim Re-Render des Karte-Tabs vor dem `innerHTML`-Austausch entfernt (bisher blieb die Leaflet-Instanz mit Listenern und Tile-Requests aktiv)
 
