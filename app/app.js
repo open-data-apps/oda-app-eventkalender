@@ -455,7 +455,13 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   function buildDataFetchUrl() {
     const configuredApiUrl = String(API_URL || "").trim();
-    if (!configuredApiUrl) return "";
+    if (
+      !configuredApiUrl ||
+      /^\{\{.*\}\}$/.test(configuredApiUrl) ||
+      /^<.*>$/.test(configuredApiUrl)
+    ) {
+      return "";
+    }
 
     // Direct CSV/ICS/JSON downloads already identify their resource. Only a
     // CKAN datastore_search endpoint needs resource_id and limit parameters.
@@ -474,9 +480,11 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     const fetchUrl = buildDataFetchUrl();
 
     if (!fetchUrl) {
-      const error = new Error("Keine Datenquelle konfiguriert.");
-      console.error("Fehler beim Laden der Veranstaltungsdaten:", error);
-      showError("Die Veranstaltungsdatenquelle ist nicht konfiguriert.");
+      const container = document.getElementById(`${rootId}-tab-content`);
+      if (container) {
+        container.innerHTML =
+          '<div class="alert alert-info m-3" role="alert">Es ist keine Datenquelle konfiguriert.</div>';
+      }
       return;
     }
 
