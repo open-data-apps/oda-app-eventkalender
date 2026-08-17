@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "eventkalender",
   "name": "EventKalender",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Interaktiver Veranstaltungskalender mit Listen- und Kartenansicht, Teilnehmer-Gruppierung, Auswertungen und iCal-Export.",
@@ -53,7 +53,7 @@
   "instanz-config": {
     "seitentitel": {
       "label": "Seitentitel",
-      "category": "general",
+      "category": "allgemein",
       "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
       "default": "EventKalender Esslingen",
       "format": {
@@ -64,7 +64,7 @@
     },
     "titel": {
       "label": "Titel",
-      "category": "general",
+      "category": "allgemein",
       "hilfe": "Der Titel wird in der Titelzeile der App angezeigt",
       "default": "Veranstaltungskalender Esslingen",
       "format": {
@@ -75,7 +75,7 @@
     },
     "icon": {
       "label": "App-Icon",
-      "category": "general",
+      "category": "allgemein",
       "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt",
       "default": "logo_ondics.png",
       "format": {
@@ -87,7 +87,7 @@
     },
     "kontakt": {
       "label": "Kontakt",
-      "category": "contact-legal",
+      "category": "kontakt-rechtliches",
       "hilfe": "Der Text wird im Menüpunkt 'Kontakt' anzeigt",
       "format": {
         "typ": "markdown"
@@ -103,7 +103,7 @@
     },
     "beschreibung": {
       "label": "Beschreibung",
-      "category": "content",
+      "category": "beschreibung",
       "hilfe": "Der Text wird im Menüpunkt 'Über diese App' angezeigt",
       "format": {
         "typ": "markdown"
@@ -128,7 +128,7 @@
     },
     "impressum": {
       "label": "Impressum",
-      "category": "contact-legal",
+      "category": "kontakt-rechtliches",
       "hilfe": "Der Text wird im Menüpunkt 'Impressum' anzeigt",
       "format": {
         "typ": "markdown"
@@ -144,7 +144,7 @@
     },
     "datenschutz": {
       "label": "Datenschutz",
-      "category": "contact-legal",
+      "category": "kontakt-rechtliches",
       "hilfe": "Der Text wird im Menüpunkt 'Datenschutz' anzeigt",
       "format": {
         "typ": "markdown"
@@ -160,7 +160,7 @@
     },
     "fusszeile": {
       "label": "Fußzeile",
-      "category": "contact-legal",
+      "category": "kontakt-rechtliches",
       "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
       "format": {
         "typ": "string",
@@ -171,7 +171,7 @@
     },
     "urlDaten": {
       "label": "URL zum Datensatz im ODP",
-      "category": "datasource",
+      "category": "datenherkunft",
       "hilfe": "Der Datensatz im Open Data Portal mit den Veranstaltungsdaten",
       "format": {
         "typ": "url"
@@ -182,7 +182,7 @@
     },
     "apiurl": {
       "label": "URL zu den Daten",
-      "category": "datasource",
+      "category": "datenherkunft",
       "hilfe": "URL der CSV-, JSON- oder ICS-Ressource; bei datastore_search wird die Ressourcen-ID ergänzt",
       "format": {
         "typ": "url",
@@ -194,7 +194,7 @@
     },
     "resourceId": {
       "label": "Ressourcen-ID",
-      "category": "datasource",
+      "category": "datenherkunft",
       "hilfe": "CKAN Ressourcen-ID des Datensatzes",
       "format": {
         "typ": "string",
@@ -206,7 +206,7 @@
     },
     "maxRecords": {
       "label": "Maximaler Datensätze",
-      "category": "advanced",
+      "category": "sonstiges",
       "hilfe": "Maximale Anzahl an Einträgen, die geladen werden (z.B. 1000)",
       "format": {
         "typ": "string"
@@ -216,7 +216,7 @@
     },
     "standardKategorie": {
       "label": "Standard-Kategorie",
-      "category": "advanced",
+      "category": "sonstiges",
       "hilfe": "Standardmäßig ausgewählte Kategorie beim Start",
       "format": {
         "typ": "string"
@@ -226,7 +226,7 @@
     },
     "karteZentrum": {
       "label": "Karten-Zentrum",
-      "category": "advanced",
+      "category": "sonstiges",
       "hilfe": "Initiale Geokoordinaten der Karte (Latitude, Longitude)",
       "format": {
         "typ": "string"
@@ -236,7 +236,7 @@
     },
     "karteZoom": {
       "label": "Karten-Zoom",
-      "category": "advanced",
+      "category": "sonstiges",
       "hilfe": "Initiales Zoom-Level der Karte (z.B. 12)",
       "format": {
         "typ": "string"
@@ -246,7 +246,7 @@
     },
     "proxyAktiv": {
       "label": "ODAS Proxy aktivieren",
-      "category": "datasource",
+      "category": "datenherkunft",
       "hilfe": "Soll die Datenabfrage über den integrierten ODAS CORS-Proxy laufen?",
       "default": "nein",
       "format": {
@@ -260,7 +260,7 @@
     },
     "weiterfuehrendeLinks": {
       "label": "Weiterführende Links",
-      "category": "content",
+      "category": "beschreibung",
       "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
       "format": {
         "typ": "markdown"
@@ -270,7 +270,7 @@
     },
     "datenquelleHinweis": {
       "label": "Methodik / Datenquelle-Hinweis",
-      "category": "content",
+      "category": "beschreibung",
       "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
       "default": "<p>Die produktive Veranstaltungsressource liegt im <a href='https://open-data-musterstadt.ckan.de'>Open Data Portal Musterstadt</a> als Datensatz <a href='https://open-data-musterstadt.ckan.de/dataset/kalender_demo'>„Eventkalender“</a> mit der Ressource <a href='https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv'>events.csv</a>. Die App lädt die Quelle direkt oder über den ODAS-Proxy und verarbeitet CSV-, JSON- und iCalendar-Antworten. Angezeigt werden die in der Quelle vorhandenen Termine; Vollständigkeit und Aktualität hängen vom Pflegestand der Datenquelle ab.</p>",
       "format": {
@@ -280,7 +280,7 @@
     },
     "datenStand": {
       "label": "Datenstand",
-      "category": "content",
+      "category": "beschreibung",
       "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
       "default": "Stand: Referenzdatensatz vom 31.07.2026",
       "format": {
@@ -290,7 +290,7 @@
     },
     "kpiKontext1": {
       "label": "KPI-Erklärung: Heute",
-      "category": "metrics",
+      "category": "beschreibung",
       "hilfe": "Erklärtext unter dem KPI 'Heute'. Leer = ausgeblendet.",
       "default": "Termine, die heute stattfinden oder andauern.",
       "format": {
@@ -300,7 +300,7 @@
     },
     "kpiKontext2": {
       "label": "KPI-Erklärung: Nächstes Event",
-      "category": "metrics",
+      "category": "beschreibung",
       "hilfe": "Erklärtext unter dem KPI 'Nächstes Event'. Leer = ausgeblendet.",
       "default": "Der zeitlich nächste anstehende Termin.",
       "format": {
@@ -310,7 +310,7 @@
     },
     "kpiKontext3": {
       "label": "KPI-Erklärung: Diese Woche",
-      "category": "metrics",
+      "category": "beschreibung",
       "hilfe": "Erklärtext unter dem KPI 'Diese Woche'. Leer = ausgeblendet.",
       "default": "Termine in den nächsten sieben Tagen.",
       "format": {
@@ -320,7 +320,7 @@
     },
     "kpiKontext4": {
       "label": "KPI-Erklärung: Kategorien",
-      "category": "metrics",
+      "category": "beschreibung",
       "hilfe": "Erklärtext unter dem KPI 'Kategorien'. Leer = ausgeblendet.",
       "default": "Anzahl unterschiedlicher Veranstaltungssparten.",
       "format": {
@@ -330,7 +330,7 @@
     },
     "kpiKontext5": {
       "label": "KPI-Erklärung: Veranstalter",
-      "category": "metrics",
+      "category": "beschreibung",
       "hilfe": "Erklärtext unter dem KPI 'Veranstalter'. Leer = ausgeblendet.",
       "default": "Anzahl aktiver Organisationen im Datenbestand.",
       "format": {
@@ -340,7 +340,7 @@
     },
     "sprache": {
       "label": "Sprache der App",
-      "category": "general",
+      "category": "allgemein",
       "hilfe": "Angabe der App-Sprache",
       "default": "de",
       "format": {
@@ -353,7 +353,7 @@
     },
     "brandingCSS": {
       "label": "Zusätzliches Branding-CSS",
-      "category": "advanced",
+      "category": "sonstiges",
       "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
       "default": "",
       "format": {
@@ -364,7 +364,7 @@
     },
     "brandingCSSFile": {
       "label": "Branding-CSS-Datei",
-      "category": "advanced",
+      "category": "sonstiges",
       "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
       "default": "",
       "format": {
