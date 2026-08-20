@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 1.27.0 - 2026-08-20
+- FIX: `escapeHtml()` für DOM-IDs erzeugte ein Render/Lookup-Mismatch bei Sonderzeichen in `event_id`; durch ID-sicheren Sanitizer ersetzt (F-81)
+- FIX: KPI-Berechnung und Sortierung berücksichtigen jetzt `ev.zeitzone` statt naiver `new Date()`-Interpretation (F-82)
+- FIX: Verworfene Termine (kaputte CSV-Zeilen, fehlendes `datum_start`) werden jetzt gezählt und als Hinweis angezeigt (F-73)
+
 ## 1.26.0 - 2026-08-17
 - `fetchOdasJson()` wirft jetzt bei nicht-JSON-Antworten (CSV, HTML, leerer Body) eine sprechende Konfigurationsfehlermeldung statt der rohen `JSON.parse`-Parserfehlermeldung (F-66)
 

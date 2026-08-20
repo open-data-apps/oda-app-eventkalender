@@ -109,6 +109,89 @@ function describeNonJsonPayload(rawContent) {
   return "unlesbaren Inhalt";
 }
 
+// F-82: Zeitzonenbewusste Umwandlung eines naiven Wall-Clock-Datetimes
+// ("YYYY-MM-DDTHH:MM:SS", ohne Offset) in einen echten UTC-Zeitpunkt, bezogen
+// auf die vom Datensatz gelieferte ev.zeitzone. new Date(datum_start) allein
+// interpretiert einen offset-losen String als Browser-lokale Zeit statt als
+// Wandzeit in der Zeitzone des Events - das verfaelscht KPI-Zaehlungen
+// ("Heute"/"Diese Woche") und die chronologische Sortierung fuer Events
+// ausserhalb der Browser-Zeitzone. Zentrale Stelle, die von updateKPIs() und
+// der renderAblaufplan()-Sortierung gemeinsam genutzt wird.
+const tzFormatterCache = new Map();
+
+function getTzFormatter(timeZone) {
+  if (tzFormatterCache.has(timeZone)) return tzFormatterCache.get(timeZone);
+  let formatter = null;
+  try {
+    formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone,
+      hour12: false,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  } catch (_error) {
+    formatter = null; // Unbekannte/ungueltige Zeitzonen-ID
+  }
+  tzFormatterCache.set(timeZone, formatter);
+  return formatter;
+}
+
+function zonedDateTimeToUtc(dateStr, timeZone) {
+  const raw = String(dateStr || "").trim();
+  if (!raw) return null;
+
+  const match = raw.match(
+    /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2}))?)?(Z|[+-]\d{2}:?\d{2})?$/,
+  );
+  if (!match) {
+    const fallback = new Date(raw);
+    return isNaN(fallback.getTime()) ? null : fallback;
+  }
+
+  const [, y, mo, d, h = "00", mi = "00", s = "00", explicitOffset] = match;
+
+  // Datum-only oder bereits mit explizitem UTC-/Offset-Marker (z.B. ICS "Z"):
+  // der nativen Date-Interpretation vertrauen, keine Zonenumrechnung noetig.
+  if (!match[4] || explicitOffset) {
+    const fallback = new Date(raw);
+    return isNaN(fallback.getTime()) ? null : fallback;
+  }
+
+  const asUTC = Date.UTC(
+    Number(y), Number(mo) - 1, Number(d),
+    Number(h), Number(mi), Number(s),
+  );
+
+  const formatter = getTzFormatter(timeZone || "Europe/Berlin");
+  if (!formatter) return new Date(asUTC);
+
+  // Trick: asUTC so formatieren, als waere dieser Zeitpunkt bereits in der
+  // Zielzone zu lesen; die Differenz zum Ausgangswert ist der Zonen-Offset
+  // an diesem Zeitpunkt. Der gesuchte UTC-Zeitpunkt liegt um genau diesen
+  // Offset von asUTC entfernt.
+  const parts = formatter.formatToParts(new Date(asUTC));
+  const partVals = {};
+  parts.forEach((p) => {
+    if (p.type !== "literal") partVals[p.type] = p.value;
+  });
+
+  const asIfUtcInZone = Date.UTC(
+    Number(partVals.year),
+    Number(partVals.month) - 1,
+    Number(partVals.day),
+    Number(partVals.hour) === 24 ? 0 : Number(partVals.hour),
+    Number(partVals.minute),
+    Number(partVals.second),
+  );
+
+  const offsetMs = asIfUtcInZone - asUTC;
+  return new Date(asUTC - offsetMs);
+}
+
 /*
  * Template-Hook (oda-generic 1.4.0). Die Base ruft ihn vor dem Rendern der neuen
  * Seite auf. Diese App haelt eine Leaflet-Karte und zwei Chart.js-Instanzen in
@@ -214,6 +297,34 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       .replace(/'/g, "&#039;");
   }
 
+  // F-81: ID-sicherer Bezeichner fuer DOM-IDs, die aus event_id gebildet werden.
+  // escapeHtml() ist fuer HTML-Content-Escaping gedacht, nicht fuer DOM-IDs: bei
+  // innerHTML-Rendering decodiert der Browser die Entities beim Parsen wieder,
+  // sodass ein per escapeHtml() gebautes id-Attribut nicht mehr zu einem
+  // getElementById()-Lookup passt, der denselben escapten String verwendet.
+  // Selbes Filterprinzip wie collapsibleId weiter unten (alnum-Filter), zusaetzlich
+  // um einen Hash-Suffix ergaenzt, damit unterschiedliche event_id-Werte, die nach
+  // dem Filtern auf denselben (ggf. leeren) Rest kollabieren, eindeutig bleiben.
+  function safeIdPart(value) {
+    const raw = String(value === null || value === undefined ? "" : value);
+    const alnum = raw.replace(/[^a-zA-Z0-9]/g, "");
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+      hash = (hash * 31 + raw.charCodeAt(i)) | 0;
+    }
+    return alnum + "h" + Math.abs(hash).toString(36);
+  }
+
+  // F-82: Zeitzonenbewusste Instanten fuer KPI-Berechnung und Sortierung
+  // (siehe zonedDateTimeToUtc() oben). Faellt auf datum_start zurueck, wenn
+  // datum_ende fehlt (analog zur bisherigen ev.datum_ende-Normalisierung).
+  function eventStartInstant(ev) {
+    return zonedDateTimeToUtc(ev.datum_start, ev.zeitzone);
+  }
+  function eventEndInstant(ev) {
+    return zonedDateTimeToUtc(ev.datum_ende || ev.datum_start, ev.zeitzone);
+  }
+
   // Helper: optionaler Abschnitt mit weiterführenden Links (HTML-Passthrough)
   function renderWeitereInfos(cfg = {}) {
     const links = String(cfg.weiterfuehrendeLinks || "").trim();
@@ -275,6 +386,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
             </button>
           </div>
         </div>
+
+        <!-- F-73: Hinweis auf verworfene Datensaetze (kaputte CSV-Zeilen, fehlendes datum_start) -->
+        <div id="${rootId}-data-warnings"></div>
 
         <!-- KPI Cards Row -->
         <div class="kpi-row" id="${rootId}-kpis">
@@ -527,6 +641,10 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // Parses CSV, JSON or ICS/iCal and normalizes the format
   function parseAndNormalize(content) {
     let parsedData = [];
+    // F-73: Zaehlt Datensaetze, die verworfen wurden (kaputte CSV-Zeilen bzw.
+    // fehlendes datum_start), damit dies sichtbar gemeldet werden kann statt
+    // stillschweigend zu verschwinden.
+    let brokenCsvRows = 0;
 
     if (content && typeof content === "string" && content.includes("BEGIN:VCALENDAR")) {
       console.log("iCalendar-Format (ICS) erkannt, parse...");
@@ -554,9 +672,14 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       }
 
       if (!parsedJson) {
-        parsedData = parseCSV(content);
+        const csvResult = parseCSV(content);
+        parsedData = csvResult.rows;
+        brokenCsvRows = csvResult.verworfen;
       }
     }
+
+    const totalRecordsSeen = parsedData.length + brokenCsvRows;
+    let missingStartCount = 0;
 
     // Normalize records to match concept keys
     allEvents = parsedData.map((ev, index) => {
@@ -589,7 +712,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         status: ev.status || "geplant",
         wiederholung: ev.wiederholung || ev.rrule || ""
       };
-    }).filter(ev => ev.datum_start); // Skip events missing start date
+    }).filter(ev => {
+      // Skip events missing start date
+      if (!ev.datum_start) {
+        missingStartCount++;
+        return false;
+      }
+      return true;
+    });
+
+    renderDataWarning(brokenCsvRows + missingStartCount, totalRecordsSeen);
 
     // Populate filter selectors dynamically
     populateFiltersDynamicOptions();
@@ -598,10 +730,32 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     applyFilters();
   }
 
+  // F-73: Zeigt einen sichtbaren Hinweis, wenn Datensaetze beim Parsen
+  // verworfen wurden (kaputte CSV-Zeile oder fehlendes datum_start), statt sie
+  // stillschweigend aus der Anzeige fallen zu lassen.
+  function renderDataWarning(discardedCount, totalCount) {
+    const container = document.getElementById(`${rootId}-data-warnings`);
+    if (!container) return;
+
+    if (discardedCount <= 0) {
+      container.innerHTML = "";
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="alert alert-warning m-0 mb-2" role="alert">
+        ${discardedCount} von ${totalCount} Terminen konnten nicht angezeigt werden (fehlerhafte Daten oder fehlendes Startdatum).
+      </div>
+    `;
+  }
+
+  // F-73: Liefert neben den geparsten Zeilen auch verworfen (Anzahl Zeilen mit
+  // weniger Feldern als Spalten in der Kopfzeile), damit der Aufrufer die
+  // verworfenen Datensaetze zaehlen und sichtbar melden kann.
   function parseCSV(text) {
     const lines = text.split(/\r?\n/).filter(line => line.trim());
-    if (lines.length === 0) return [];
-    
+    if (lines.length === 0) return { rows: [], verworfen: 0 };
+
     // Detect delimiter
     const header = lines[0];
     let delimiter = ",";
@@ -618,17 +772,21 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     }
 
     const result = [];
+    let verworfen = 0;
     for (let i = 1; i < lines.length; i++) {
       const values = splitCSVLine(lines[i], delimiter);
-      if (values.length < headers.length) continue;
-      
+      if (values.length < headers.length) {
+        verworfen++;
+        continue;
+      }
+
       const obj = {};
       headers.forEach((headerName, index) => {
         obj[headerName] = values[index];
       });
       result.push(obj);
     }
-    return result;
+    return { rows: result, verworfen };
   }
 
   function splitCSVLine(line, delimiter) {
@@ -851,19 +1009,27 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     if (!root) return;
 
     const now = new Date();
-    const todayStr = now.toISOString().substring(0, 10);
+    // "Heute" bezieht sich auf den Kalendertag der Besucher:in (Browser-lokal);
+    // die Grenzen dieses Tages werden gegen den zeitzone-korrekten UTC-Instant
+    // von Event-Start/-Ende geprueft (F-82), nicht gegen rohe Datumsstrings.
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
 
     // 1. Events today
     const eventsToday = allEvents.filter(e => {
-      const startStr = e.datum_start.substring(0, 10);
-      const endeStr = e.datum_ende.substring(0, 10);
-      return startStr === todayStr || (startStr <= todayStr && endeStr >= todayStr);
+      const start = eventStartInstant(e);
+      if (!start) return false;
+      const end = eventEndInstant(e) || start;
+      return start <= endOfToday && end >= startOfToday;
     });
 
     // 2. Next Event (chronological >= now)
     const futureEventsSorted = allEvents
-      .filter(e => new Date(e.datum_start) >= now && e.status !== "abgesagt")
-      .sort((a, b) => new Date(a.datum_start) - new Date(b.datum_start));
+      .filter(e => {
+        const start = eventStartInstant(e);
+        return start && start >= now && e.status !== "abgesagt";
+      })
+      .sort((a, b) => eventStartInstant(a) - eventStartInstant(b));
 
     let nextEventTitle = "Keines";
     let countdownStr = "In nächster Zeit";
@@ -871,8 +1037,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     if (futureEventsSorted.length > 0) {
       const nextEv = futureEventsSorted[0];
       nextEventTitle = nextEv.titel;
-      
-      const diffMs = new Date(nextEv.datum_start) - now;
+
+      const diffMs = eventStartInstant(nextEv) - now;
       const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
       const diffDays = Math.floor(diffHrs / 24);
 
@@ -888,8 +1054,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     // 3. Events this week (next 7 days)
     const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
     const eventsThisWeek = allEvents.filter(e => {
-      const d = new Date(e.datum_start);
-      return d >= now && d <= sevenDaysLater;
+      const d = eventStartInstant(e);
+      return d && d >= now && d <= sevenDaysLater;
     });
 
     // 4. Unique Categories count
@@ -989,13 +1155,15 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // 9. TAB 1: ABLAUFPLAN
   function renderAblaufplan(container) {
-    // Sort events chronologically
-    const sorted = [...filteredEvents].sort((a, b) => new Date(a.datum_start) - new Date(b.datum_start));
-    
+    // Sort events chronologically (F-82: zeitzone-bewusster UTC-Instant statt
+    // naiver new Date(datum_start), damit Events ausserhalb der Browser-
+    // Zeitzone korrekt einsortiert werden)
+    const sorted = [...filteredEvents].sort((a, b) => eventStartInstant(a) - eventStartInstant(b));
+
     // Separate past and future events
     const now = new Date();
-    const pastEvents = sorted.filter(e => new Date(e.datum_start) < now);
-    const futureEvents = sorted.filter(e => new Date(e.datum_start) >= now);
+    const pastEvents = sorted.filter(e => eventStartInstant(e) < now);
+    const futureEvents = sorted.filter(e => eventStartInstant(e) >= now);
 
     // We do pagination on the combined list but we keep a "Heute" divider
     const totalItems = sorted.length;
@@ -1012,8 +1180,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     // Helper: does today's divider fall inside this page?
     // If we have past and future events, check if we need to put it
     paginatedEvents.forEach((ev) => {
-      const evDate = new Date(ev.datum_start);
-      
+      const evDate = eventStartInstant(ev);
+
       // Place "Heute" line if transitioning from past to future
       if (!placedDivider && evDate >= now && pastEvents.length > 0) {
         html += `
@@ -1174,7 +1342,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
               <div class="small text-muted" style="margin-bottom:2px;">📅 ${timeStr}</div>
               <div class="small text-muted" style="margin-bottom:5px;">📍 ${escapeHtml(ev.ort_name)}</div>
               ${ev.teilnehmer ? `<div class="small text-truncate" style="margin-bottom:6px;">👥 ${escapeHtml(ev.teilnehmer)}</div>` : ""}
-              <button class="btn btn-xs btn-outline-event w-100 py-1 text-center" style="font-size:0.75rem; border-radius:4px;" id="${rootId}-map-btn-show-${escapeHtml(ev.event_id)}">
+              <button class="btn btn-xs btn-outline-event w-100 py-1 text-center" style="font-size:0.75rem; border-radius:4px;" id="${rootId}-map-btn-show-${safeIdPart(ev.event_id)}">
                 Details anzeigen
               </button>
             </div>
@@ -1184,7 +1352,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
             .bindPopup(popupHtml);
 
           marker.on("popupopen", () => {
-            const btn = document.getElementById(`${rootId}-map-btn-show-${escapeHtml(ev.event_id)}`);
+            const btn = document.getElementById(`${rootId}-map-btn-show-${safeIdPart(ev.event_id)}`);
             if (btn) {
               btn.addEventListener("click", () => {
                 selectEvent(ev);
@@ -1275,7 +1443,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
                   return `
                     <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 py-2 px-1 rounded" 
                          style="cursor:pointer; font-size:0.85rem;" 
-                         id="att-ev-link-${escapeHtml(ev.event_id)}">
+                         id="att-ev-link-${safeIdPart(ev.event_id)}">
                       <div>
                         <span class="badge-kat bg-kat-${categoryClass} me-2" style="font-size:0.65rem;">
                           ${escapeHtml(ev.kategorie)}
@@ -1299,7 +1467,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       filteredList.forEach(name => {
         const events = participantMap.get(name);
         events.forEach(ev => {
-          const item = resultDiv.querySelector(`#att-ev-link-${escapeHtml(ev.event_id)}`);
+          const item = resultDiv.querySelector(`#att-ev-link-${safeIdPart(ev.event_id)}`);
           if (item) {
             item.addEventListener("click", (e) => {
               e.stopPropagation();
@@ -1746,6 +1914,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         </div>
       `;
     }
+    // F-73: Hinweis auf verworfene Datensaetze aus einem vorherigen Ladevorgang
+    // nicht ueber einen neuen Ladevorgang hinweg stehen lassen.
+    renderDataWarning(0, 0);
   }
 
   function showError(msg) {
@@ -1758,6 +1929,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         </div>
       `;
     }
+    renderDataWarning(0, 0);
   }
 
   // 15. DYNAMIC SCRIPTS LOADING
