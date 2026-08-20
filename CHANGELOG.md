@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.28.0 - 2026-08-20
+- Markdown-Metadaten: Paketbeschreibungen auf echtes Markdown umgestellt, exakte Identität Top-Level/Instanz hergestellt, lokale HTML-Fixture semantisch gespiegelt.
 
 ## 1.27.0 - 2026-08-20
 - FIX: `escapeHtml()` für DOM-IDs erzeugte ein Render/Lookup-Mismatch bei Sonderzeichen in `event_id`; durch ID-sicheren Sanitizer ersetzt (F-81)
