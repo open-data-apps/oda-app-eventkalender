@@ -134,7 +134,7 @@ Die App arbeitet standardmäßig mit den folgenden Tabellenspalten (im Datastore
 ## Konfiguration (Instanz)
 Folgende Parameter werden bei der Instanziierung der App im Open Data App Store eingestellt:
 
-- `apiurl`: Die URL zum JSON-, CSV- oder ICS-Endpunkt. In der ausgelieferten Konfiguration
+- `apiurls`: Array benannter Datenressourcen. Eintrag `events`: die URL zum JSON-, CSV- oder ICS-Endpunkt. In der ausgelieferten Konfiguration
   ist dies die öffentliche [events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
 - `resourceId`: Die Ressourcen-ID für Datastore-Abfragen.
 - `maxRecords`: Die Begrenzung der maximal geladenen Datensätze (z.B. `"1000"`).
@@ -145,7 +145,7 @@ Folgende Parameter werden bei der Instanziierung der App im Open Data App Store 
 - `sprache`: Sprache der Oberfläche (`"de"`).
 - `titel` / `seitentitel`: Angezeigter App-Titel und HTML-Title-Tag.
 
-Die Paket-Defaults für `apiurl`, `resourceId` und `urlDaten` zeigen auf den [Datensatz
+Die Paket-Defaults für `apiurls.events`, `resourceId` und `urlDaten` zeigen auf den [Datensatz
 „Eventkalender“](https://open-data-musterstadt.ckan.de/dataset/kalender_demo) und seine
 [events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
 Die Referenzdateien im Paket bleiben für Offline-Tests und die Byte-Identitätsprüfung
@@ -174,7 +174,7 @@ dem EntryPoint `websecure` und dem Zertifikatsresolver `letsencrypt`.
 
 1. In `docker-compose.standalone.yml` den Platzhalter `app1.example.com` durch den
    echten FQDN ersetzen.
-2. In `odas-config/config.json` `proxyAktiv` auf `nein` belassen und `apiurl` auf eine
+2. In `odas-config/config.json` `proxyAktiv` auf `nein` belassen und `apiurls.events` auf eine
    CORS-fähige produktive Quelle setzen.
 3. Starten:
 

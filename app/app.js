@@ -87,6 +87,17 @@ async function fetchOdasResource(targetUrl, configdata = {}) {
   }
 }
 
+/**
+ * Löst eine benannte Datenressource aus configdata.apiurls auf.
+ * Neue apiurls-Form (typ: "array"); das frühere skalare apiurl wird nicht mehr gelesen.
+ * @returns {string} getrimmte URL, oder "" für den Zustand "keine Quelle konfiguriert"
+ */
+function getOdasApiUrl(configdata, name) {
+  const liste = Array.isArray(configdata && configdata.apiurls) ? configdata.apiurls : [];
+  const treffer = liste.find((eintrag) => eintrag && eintrag.name === name);
+  return String((treffer && treffer.url) || "").trim();
+}
+
 async function fetchOdasJson(targetUrl, configdata = {}) {
   const rawContent = await fetchOdasResource(targetUrl, configdata);
   try {
@@ -210,7 +221,7 @@ function onPageLeave(page) {
 function app(configdata = {}, enclosingHtmlDivElement) {
   const ekUid = "i" + ++ekInstanzZaehler;
   // 1. CONFIGURATION
-  const API_URL = configdata.apiurl || "";
+  const API_URL = getOdasApiUrl(configdata, "events");
   const RESOURCE_ID = configdata.resourceId || "";
   const MAX_RECORDS = Number(configdata.maxRecords || 1000);
   const STANDARD_KATEGORIE = configdata.standardKategorie || "alle";

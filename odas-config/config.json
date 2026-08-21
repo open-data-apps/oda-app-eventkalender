@@ -49,7 +49,13 @@
   "fusszeile": [
     "(C) Copyright 2026 | Stadt Esslingen | App-Entwickler: Ondics GmbH"
   ],
-  "apiurl": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv",
+  "apiurls": [
+    {
+      "name": "events",
+      "label": "URL zu den Daten",
+      "url": "https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv"
+    }
+  ],
   "resourceId": "36aa580e-0c46-4f76-bc95-fbba9a5c5fa3",
   "maxRecords": "1000",
   "standardKategorie": "alle",
