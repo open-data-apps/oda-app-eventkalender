@@ -136,8 +136,7 @@ Folgende Parameter werden bei der Instanziierung der App im Open Data App Store 
 
 - `apiurls`: Array benannter Datenressourcen. Eintrag `events`: die URL zum JSON-, CSV- oder ICS-Endpunkt. In der ausgelieferten Konfiguration
   ist dies die öffentliche [events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
-- `resourceId`: Die Ressourcen-ID für Datastore-Abfragen.
-- `maxRecords`: Die Begrenzung der maximal geladenen Datensätze (z.B. `"1000"`).
+- Die `apiurls.events`-URL ist vollständig und enthält bei Datastore-Abfragen bereits `resource_id` und `limit` (Standard „Eine Quelle = eine vollständige URL“).
 - `standardKategorie`: Standard-Kategorievorwahl (z.B. `"alle"`).
 - `karteZentrum`: Geokoordinaten für den Mittelpunkt der Karte (z.B. `"48.7396, 9.3097"`).
 - `karteZoom`: Zoom-Stufe der Karte (z.B. `"12"`).
@@ -145,7 +144,7 @@ Folgende Parameter werden bei der Instanziierung der App im Open Data App Store 
 - `sprache`: Sprache der Oberfläche (`"de"`).
 - `titel` / `seitentitel`: Angezeigter App-Titel und HTML-Title-Tag.
 
-Die Paket-Defaults für `apiurls.events`, `resourceId` und `urlDaten` zeigen auf den [Datensatz
+Die Paket-Defaults für `apiurls.events` und `urlDaten` zeigen auf den [Datensatz
 „Eventkalender“](https://open-data-musterstadt.ckan.de/dataset/kalender_demo) und seine
 [events.csv-Ressource](https://open-data-musterstadt.ckan.de/dataset/33a51ed9-c76e-441f-b6e6-6c1bb55d4e8f/resource/36aa580e-0c46-4f76-bc95-fbba9a5c5fa3/download/events.csv).
 Die Referenzdateien im Paket bleiben für Offline-Tests und die Byte-Identitätsprüfung

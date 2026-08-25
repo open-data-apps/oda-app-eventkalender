@@ -222,8 +222,6 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   const ekUid = "i" + ++ekInstanzZaehler;
   // 1. CONFIGURATION
   const API_URL = getOdasApiUrl(configdata, "events");
-  const RESOURCE_ID = configdata.resourceId || "";
-  const MAX_RECORDS = Number(configdata.maxRecords || 1000);
   const STANDARD_KATEGORIE = configdata.standardKategorie || "alle";
 
   let mapCenter = [48.7396, 9.3097]; // Esslingen default
@@ -606,16 +604,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       return "";
     }
 
-    // Direct CSV/ICS/JSON downloads already identify their resource. Only a
-    // CKAN datastore_search endpoint needs resource_id and limit parameters.
-    if (!/\/datastore_search(?:$|\?)/i.test(configuredApiUrl) || !RESOURCE_ID) {
-      return configuredApiUrl;
-    }
-
-    const separator = configuredApiUrl.includes("?") ? "&" : "?";
-    return `${configuredApiUrl}${separator}resource_id=${encodeURIComponent(
-      RESOURCE_ID,
-    )}&limit=${encodeURIComponent(MAX_RECORDS)}`;
+    // Eine Quelle = eine vollständige URL: Die konfigurierte URL beschreibt das
+    // Ziel komplett; der Code haengt keine Konfig-Parameter mehr an.
+    return configuredApiUrl;
   }
 
   async function loadAllData() {

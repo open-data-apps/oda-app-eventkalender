@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.31.0 - 2026-08-25
+- **CHG:** apiurls-Standard „Eine Quelle = eine vollständige URL“ umgesetzt: Instanzfelder `resourceId` und `maxRecords` entfernt; die konfigurierte `apiurls.events`-URL ist alleinige, vollständige Datenquelle (Limit gehört bei Bedarf in die URL).
+
 ## 1.30.0 - 2026-08-22
 - **CHG:** `version` in `app-package.json` zu `app-version` umbenannt.
 - **ENH:** Top-Level-Feld `app-package-version` ergänzt (Wert `"2"`: mehrere benannte API-URLs über `instanz-config.apiurls`).
