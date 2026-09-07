@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.1 - 2026-09-07
+- **CHORE:** Frictionless-Prüfung: Schema, `daten`-Block und Slot bereits konform (Header-Match 17/17 verifiziert, 08-25-Hybrid-Entfernung bestätigt) — keine inhaltliche Änderung.
+
 ## 1.32.0 - 2026-08-25
 - **CHG:** Proxy-Aufruf sendet die vollständige Ziel-URL statt nur Pfad+Query, damit die neue Origin-Allowlist-Prüfung der ODAS-Plattform greift (bisher implizite Auflösung gegen den ersten konfigurierten `apiurl`).
 
