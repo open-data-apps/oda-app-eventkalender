@@ -16,6 +16,7 @@ Die App ist eine Single Page Application (SPA) mit:
 - **Premium CSS Branding** mit moderner Typografie und ansprechenden Interaktionen
 - **Inhaltsbereich (Event-Dashboard)**
 - **Fußzeile**
+- Laufende Datenabrufe brechen beim Seitenwechsel ab; eine nicht ladbare Karten-/Chart-Bibliothek wird sichtbar gemeldet statt Karte und Diagramme stumm leer zu lassen
 
 Die App lädt Konfigurationsdaten dynamisch und bietet folgende Kernfunktionen:
 

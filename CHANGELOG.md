@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.32.4 - 2026-09-10
+- **FIX (EK-B1):** `eventKalenderInstances.set(...)` ohne Vorgänger-Cleanup — bei Same-Page-Re-Render blieben alte Leaflet-Karte **und** beide Chart.js-Instanzen am Leben. Jetzt wird das `dispose()` der Vorgänger-Instanz zuerst aufgerufen.
+- **FIX (EK-B2):** `loadLeaflet()` und `loadChartJS()` sind Callback-Loader ohne `onerror` und ohne Wiederverwendung: eine nicht ladbare Bibliothek ließ Karte/Diagramme stumm verschwinden, und jede Instanz hängte erneut CSS-/Script-Tags an. Jetzt Fehlerpfad über `meldeBibliotheksFehler()` (sichtbare Meldung im Warnbereich) und Prüfung vorhandener Tags.
+- **FIX (EK-B3):** `AbortController` je Instanz; der Event-Abruf läuft mit `signal` und wird in `dispose()` abgebrochen. `fetchOdasResource`/`fetchOdasJson` reichen `signal` durch und werfen `AbortError` unverpackt.
+- **TECH (EK-B4):** `isLeerErgebnis` entfernt; `addToHead` gibt `""` statt `undefined` zurück.
+
 ## 1.32.3 - 2026-09-08
 - **FIX:** F-92-Nachbesserung: top-level `escapeHtml` für `renderOdasFehler` bzw. Fehlerrender ins Status-Element statt Root (Layout-Scaffold bleibt erhalten, Regressionen check-two-instance-runtime/check-three-states grün) (1.32.2 -> 1.32.3).
 
