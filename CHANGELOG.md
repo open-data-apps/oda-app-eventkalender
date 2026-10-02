@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.5 - 2026-10-02
+- ENH: Verwendete ODAS-Dienste in `odas-services` deklariert.
+
 ## 1.32.4 - 2026-09-10
 - **FIX (EK-B1):** `eventKalenderInstances.set(...)` ohne Vorgänger-Cleanup — bei Same-Page-Re-Render blieben alte Leaflet-Karte **und** beide Chart.js-Instanzen am Leben. Jetzt wird das `dispose()` der Vorgänger-Instanz zuerst aufgerufen.
 - **FIX (EK-B2):** `loadLeaflet()` und `loadChartJS()` sind Callback-Loader ohne `onerror` und ohne Wiederverwendung: eine nicht ladbare Bibliothek ließ Karte/Diagramme stumm verschwinden, und jede Instanz hängte erneut CSS-/Script-Tags an. Jetzt Fehlerpfad über `meldeBibliotheksFehler()` (sichtbare Meldung im Warnbereich) und Prüfung vorhandener Tags.
