@@ -1004,8 +1004,15 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       const ch = text[i];
       if (ch === '"') {
         current += ch;
-        if (inQuotes && text[i + 1] === '"') current += text[++i];
-        else inQuotes = !inQuotes;
+        if (inQuotes) {
+          if (text[i + 1] === '"') current += text[++i];
+          else inQuotes = false;
+        } else {
+          // RFC 4180: Nur ein Anführungszeichen am Feldanfang öffnet einen Quote-Bereich;
+          // mitten im Feld (z. B. 12" Vinyl) ist es ein normales Zeichen.
+          const vorher = current.length > 1 ? current[current.length - 2] : "";
+          if (current.length === 1 || vorher === ";" || vorher === "," || vorher === "\t") inQuotes = true;
+        }
       } else if ((ch === "\n" || ch === "\r") && !inQuotes) {
         if (ch === "\r" && text[i + 1] === "\n") i++;
         if (current.trim()) records.push(current);
@@ -1025,7 +1032,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     let entry = "";
     for (let i = 0; i < line.length; i++) {
       const char = line[i];
-      if (char === '"') {
+      if (char === '"' && (insideQuote || entry.trim() === "")) {
+        // Wie splitCSVRecords: Quote-Bereich nur am Feldanfang, sonst normales Zeichen.
         if (insideQuote && line[i + 1] === '"') { entry += '"'; i++; }
         else insideQuote = !insideQuote;
       } else if (char === delimiter && !insideQuote) {

@@ -32,3 +32,15 @@ test('F-135 wirklich unvollständige CSV-Zeile wird weiter gezählt', () => {
 test('F-135 offene Quotes erzeugen keinen scheinbar gültigen Termin', () => {
   assert.throws(() => app.parseCSV('titel;datum_start\n"Offen;2026-09-22T12:00:00Z'), /CSV|Anführungszeichen/);
 });
+test('Review-Nachtrag: Anführungszeichen mitten im Feld ist ein normales Zeichen', () => {
+  const result = app.parseCSV('titel;datum_start;beschreibung\n12" Vinyl;2026-09-22T12:00:00Z;Platte\nBeta;2026-09-23T12:00:00Z;Ende\nGamma 3" Box;2026-09-24T12:00:00Z;x\n');
+  assert.equal(result.rows.length, 3);
+  assert.equal(result.verworfen ?? result.skipped, 0);
+  assert.equal(result.rows[0].titel, '12" Vinyl');
+  assert.equal(result.rows[2].titel, 'Gamma 3" Box');
+});
+test('Review-Nachtrag: einzelnes Anführungszeichen im Feld bricht den Import nicht ab', () => {
+  const result = app.parseCSV('titel;datum_start;beschreibung\n12" Vinyl;2026-09-22T12:00:00Z;Platte\n');
+  assert.equal(result.rows.length, 1);
+  assert.equal(result.rows[0].titel, '12" Vinyl');
+});
