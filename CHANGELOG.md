@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.9 - 2026-10-13
+- FIX: `assets/schema.json`: `datum_start`/`datum_ende` als Table-Schema-Typ `datetime` statt `string` mit dem JSON-Schema-Format `date-time` (ungültig nach Table Schema v1; der Store konnte das Schema nicht laden).
+
 ## 1.32.8 - 2026-10-08
 - FIX: F-127: Agendakarten fokussierbar machen und per Enter/Leertaste aktivieren.
 

@@ -25,15 +25,13 @@
     {
       "name": "datum_start",
       "title": "Startzeitpunkt",
-      "type": "string",
-      "format": "date-time",
+      "type": "datetime",
       "description": "Startdatum und -zeit nach ISO 8601."
     },
     {
       "name": "datum_ende",
       "title": "Endzeitpunkt",
-      "type": "string",
-      "format": "date-time",
+      "type": "datetime",
       "description": "Enddatum und -zeit nach ISO 8601."
     },
     {
