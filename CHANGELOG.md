@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.32.8 - 2026-10-08
+- FIX: F-127: Agendakarten fokussierbar machen und per Enter/Leertaste aktivieren.
+
+## 1.32.7 - 2026-10-08
+- FIX: F-121: Antwort und Fehler einer älteren Aktualisierung dürfen die jüngere Aktualisierung nicht überschreiben.
+
+## 1.32.6 - 2026-10-08
+- FIX: F-135: CSV-Quotes, eingebettete Trennzeichen und mehrzeilige Felder erhalten; offene Quotes ablehnen.
+- FIX: F-136: Zeitzonenoffset am Zielzeitpunkt validieren; doppelte/fehlende Ortszeiten gemäß RFC 5545 auflösen.
+- FIX: F-134: ICS-Export mit korrekten UTC-/DATE-Werten, DTSTAMP mit Z und gültigem ORGANIZER; Serien behalten zonierte Ortszeiten.
+- FIX: F-134 (Nachbesserung): Unbekannte Zeitzonennamen (z. B. aus Outlook) werden als Ortszeit mit TZID exportiert statt abzustürzen oder zu verschieben; Exportfehler erscheinen als Hinweis am Button; kein DTEND gleich DTSTART.
+
 ## 1.32.5 - 2026-10-02
 - ENH: Verwendete ODAS-Dienste in `odas-services` deklariert.
 
