@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.12 - 2026-10-13
+- FIX: Standard-Fehleranzeige gibt präzisere Tipps: ein „Failed to fetch“ ohne Proxy-Kontext erhält einen Netzwerk-Hinweis statt `proxyAktiv`; der 404-Hinweis gilt nur noch für echte HTTP-404-Antworten und nennt den lokal fehlenden Proxy/Relay statt pauschal „Datensatz auf dem Portal nicht gefunden“.
+
 ## 1.32.11 - 2026-10-13
 - FIX: F-135 (Nachbesserung): Ein Anführungszeichen mitten im Feld (z. B. 12" Vinyl) ist ein normales Zeichen und verschmilzt keine Datensätze mehr (RFC 4180).
 
