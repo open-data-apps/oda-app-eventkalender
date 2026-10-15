@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.15 - 2026-10-15
+- FIX: Kopfzeile bei 360 px ohne Überlauf (Template): Logo- und Burger-Spalte passen sich der Breite an, das Menü-Symbol ragt nicht mehr über den rechten Rand. Keine Änderung an App-Code oder Konfiguration.
+
 ## 1.32.14 - 2026-10-15
 - FIX: Beispieldatensatz `assets/events.csv` (und die Kalenderfassung `assets/events.ics`) aktualisiert: 20 fiktive Termine von August 2026 bis Dezember 2027, vergangene als „abgeschlossen“, mehrere in den nächsten Tagen – „Nächstes Event“ und „Diese Woche“ zeigen wieder Termine. Keine Änderung an App-Code oder Konfiguration.
 
